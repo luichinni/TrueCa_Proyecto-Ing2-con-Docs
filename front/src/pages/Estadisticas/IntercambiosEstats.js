@@ -4,6 +4,7 @@ import FiltroEstadistica from '../../components/FiltroEstadistica';
 import '../../HarryStyles/Publicaciones.css';
 import { useEffect, useState } from 'react';
 import Estadistica from '../../components/Estadistica';
+import AnyChart from 'anychart-react';
 
 const IntercambiosEstats = () => {
   const [intercambios, setIntercambios] = useState([]);
@@ -77,7 +78,15 @@ const IntercambiosEstats = () => {
             <br /><br /><br />
             <h1 className='sin-publi'>{error}</h1>
           </>
-        ) : (intercambios.ausenciaAmbasPartes)
+        ) : (
+          <AnyChart
+            id="pieChart"
+            width={800}
+            height={600}
+            type="pie"
+            data={[intercambios.ausenciaAmbasPartes, intercambios.ausenciaAnunciante, intercambios.ausenciaOfertante]}
+            title="Simple pie chart"
+          />)
         }
       </div>
     </div>

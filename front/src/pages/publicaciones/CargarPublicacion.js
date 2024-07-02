@@ -116,6 +116,7 @@ const AgregarPublicacion = () => {
         })
         return cateCopy
     }
+    
     function procesarcen(centros) {
         let cenCopy = [];
         Object.keys(centros).forEach(function (clave) {

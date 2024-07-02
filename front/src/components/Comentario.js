@@ -11,6 +11,7 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
 
   const [ELIMINAR,setEliminar] = useState(false);
   const [error, setError] = useState('');
+  const Token = localStorage.getItem('token')
   const username = localStorage.getItem('username');
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [usuario, setUsuario] = useState('')
@@ -35,6 +36,7 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
         } else {
           let users = procesar(response.data);
           setUsuario(users[0].user)
+          console.log(`usuario ${usuario} y username: ${username}`)
         }
       } catch (error) {
         setError('No hay publicaciones disponibles.');
@@ -83,7 +85,7 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
           />
         )}
 
-        {// si soy un admin, el dueño de la publicación o la persona que comento
+        {((Token === 'tokenAdmin')||(usuario === username)||(user === username))&&
           <button onClick={handleBorrar} className='botonCampanita'> <CiTrash size={26} className='botonCampanita' /> </button>
         }
         {ELIMINAR && (
@@ -96,7 +98,7 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
         {respuesta &&(
           <fieldset className="respuesta-info">
             <legend className='titRespuesta'>Respuesta:</legend>
-            <h2 className="user">{username}</h2>
+            <h2 className="user">{usuario}</h2>
             <h3 className="texto">{respuesta}</h3>
           </fieldset>
         )}

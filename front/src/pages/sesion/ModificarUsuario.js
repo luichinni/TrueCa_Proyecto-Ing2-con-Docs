@@ -42,7 +42,7 @@ const ModificarUsuario = () => {
             setEmail(usuarioData.mail)
             setTelefono(usuarioData.telefono);
           }
-        } catch  {
+        } catch  (error) {
           console.error(error);
         }
       };

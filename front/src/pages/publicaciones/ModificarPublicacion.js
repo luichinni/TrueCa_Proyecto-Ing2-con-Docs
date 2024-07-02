@@ -1,6 +1,6 @@
 import { ButtonSubmit } from "../../components/ButtonSubmit";
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import "../../HarryStyles/Intercambios.css"
 import "../../HarryStyles/estilos.css";
@@ -9,49 +9,34 @@ const ModificarPublicacion = () => {
 	const navigate = useNavigate(); 
     const [nombre, setNombre] = useState('');
     const [descripcion, setDescripcion] = useState('');
-    const [numeroDocumento, setNumeroDocumento] = useState('');
-    const [mail, setEmail] = useState('');
-    const [mailViejo, setEmailViejo] = useState('');
-    const [telefono, setTelefono] = useState('');
+    const [centros, setCentros] = useState('');
+
     const [huboCambio, setHuboCambio] = useState(false)
     const [myError, setMyError] = useState(false);
-    const username = localStorage.getItem('username')
     const [msgError, setMsgError] = useState('No deberías estar viendo este mensaje');
 
     const handleNombreChange = (e) => {setNombre(e.target.value); setHuboCambio(true);}
     const handleDescripcionChange = (e) => {setDescripcion(e.target.value); setHuboCambio(true);}
-    const handleNumeroDocumentoChange = (e) => {setNumeroDocumento(e.target.value); setHuboCambio(true);}
-    const handleMailChange = (e) => {setEmail(e.target.value); setHuboCambio(true);}
-    const handleTelefonoChange = (e) => {setTelefono(e.target.value); setHuboCambio(true);}
+    const handleCentrosChange = (e) => {setCentros(e.target.value); setHuboCambio(true);}
 
     useEffect(() => {
       const fetchData = async () => {
-        setLoading(true);
-        setError('');
   
         try {
-          const url = `http://localhost:8000/public/listarPublicacion?${id}`;
+          const url = `http://localhost:8000/public/listarPublicacion?`; //Falta agregar el id de la publicación que queres traer!!! 
           const response = await axios.get(url);
   
           if (response.data.length === 0) {
-            setError('No hay publicación disponible');
-            setUsuarios([]); 
+           // setUsuario([]); 
           } else {
             const usuarioData = procesar(response.data)[0]; // Solo toma la primera publicacion
-            setUsuarios([usuarioData]);
+           // setUsuario([usuarioData]);
             setNombre(usuarioData.nombre);
             setDescripcion(usuarioData.descripcion);
-            setNumeroDocumento(usuarioData.dni);
-            setEmailViejo(usuarioData.mail);
-            setEmail(usuarioData.mail)
-            setTelefono(usuarioData.telefono);
-            setNewUsername(username);
+            setCentros(usuarioData.centro);
           }
         } catch (error) {
-          setError('Ocurrió un error al obtener la publicacion.');
           console.error(error);
-        } finally {
-          setLoading(false);
         }
       };
   
@@ -65,20 +50,16 @@ const ModificarPublicacion = () => {
 		
 			console.log('entro');
 			const formData = new FormData();
-			formData.append('username', username);
-            (nombre)&&(formData.append('setnombre', nombre));
+		//	formData.append('username', username);
+      (nombre)&&(formData.append('setnombre', nombre));
 			(descripcion)&&formData.append('setdescripcion', descripcion);
-			(numeroDocumento)&&formData.append('setdni', numeroDocumento);
-			(mail)&&(mail!==mailViejo)&&formData.append('setmail', mail);
-			(telefono)&&formData.append('settelefono', telefono);
+			(centros)&&formData.append('setdni', centros);
 
 			try {
 				setMyError(false);
                 console.log(`nombre: ${formData.get('setnombre')}`);
                 console.log(`descripcion: ${formData.get('setadescripcion')}`);
-                console.log(`dni: ${formData.get('setdni')}`);
-                console.log(`mail: ${formData.get('setmail')}`);
-                console.log(`telefono: ${formData.get('settelefono')}`);
+
         if (huboCambio === true) {
           if (window.confirm('¿Seguro que deseas modificar los datos?')) {
           const response = await axios.put("http://localhost:8000/public/updateUsuario", formData,
@@ -112,6 +93,28 @@ const ModificarPublicacion = () => {
       return publicacionCopy
     }
 
+    function procesarcen(centros) {
+      let cenCopy = [];
+      Object.keys(centros).forEach(function (clave) {
+          if (!isNaN(clave)) {
+              cenCopy[clave] = centros[clave]
+          }
+      })
+      return cenCopy
+    }
+
+    useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const res = await axios.get(`http://localhost:8000/public/listarCentros?id=&nombre=&direccion=&hora_abre=&hora_cierra=`);
+              setCentros(procesarcen(res.data));
+          } catch (error) {
+              console.error(error);
+          }
+      };
+      fetchData();
+  }, []);
+
     return (
         <div>
             <br /><br /><br /><br /><br /><br />
@@ -122,7 +125,7 @@ const ModificarPublicacion = () => {
                 <br /><br />
                 <label>
                     Seleccione las fotos que queres agregar:
-                    <input type="file" accept="image/*" multiple required onChange={handleFotosChange} />
+                    //Hacer algo para que pueda agregar fotos.
                 </label>
                 <label>
                     Seleccione las fotos a eliminar:
@@ -148,3 +151,4 @@ const ModificarPublicacion = () => {
 };
 
 export default ModificarPublicacion;
+
