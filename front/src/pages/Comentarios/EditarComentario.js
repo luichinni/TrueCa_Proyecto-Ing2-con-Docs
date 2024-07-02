@@ -76,7 +76,7 @@ const EditarComentario = () => {
                 {comentarios.map(comentario => (
                     <textarea value={texto} onChange={handleTextoChange} maxLength="255" placeholder={comentario.texto} required></textarea>       
                 ))}
-                <ButtonSubmit text="Modificar comentario" />
+                <ButtonSubmit text="Modificar pregunta" />
             </form>
             {myError &&
                <p style={{ backgroundColor: "red", color: "white", textAlign: "center" }}>{msgError}</p>
