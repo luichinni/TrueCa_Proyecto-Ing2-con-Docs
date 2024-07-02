@@ -132,7 +132,7 @@ class IntercambiosHandler extends BaseHandler{
                 // obtener todas las publis y si publi nombre = datos oferta, nos quedamos con los intercambios cuyo id sea el de la publi
                 $valido = 0;
                 if (array_key_exists('publicacionOferta',$datos) && $datos['publicacionOferta'] != ''){
-                    $valido = count((new CollectionsStream($publiHandler->listar(['nombre' => $datos['publicacionOferta'],'user'=>$datos['username']], $like)))
+                    $valido = count((new CollectionsStream($publiHandler->listar(['nombre' => $datos['publicacionOferta'],/* 'user'=>$datos['username'] */], $like)))
                     ->filter(function ($publi) use ($intercambio) {
                         return $intercambio['publicacionOferta'] == $publi['id'];
                     })->get());    
@@ -144,7 +144,7 @@ class IntercambiosHandler extends BaseHandler{
                 // obtener todas las publis y si publi nombre = datos oferta, nos quedamos con los intercambios cuyo id sea el de la publi
                 $valido = 0;
                 if (array_key_exists('publicacionOfertada', $datos) && $datos['publicacionOfertada'] != '') {
-                    $valido = count((new CollectionsStream($publiHandler->listar(['nombre' => $datos['publicacionOfertada'], 'user' => $datos['username']], $like)))
+                    $valido = count((new CollectionsStream($publiHandler->listar(['nombre' => $datos['publicacionOfertada'], /* 'user' => $datos['username'] */], $like)))
                         ->filter(function ($publi) use ($intercambio) {
                             return $intercambio['publicacionOfertada'] == $publi['id'];
                         })->get());
