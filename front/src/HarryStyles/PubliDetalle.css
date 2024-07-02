@@ -10,13 +10,15 @@
 
 .detalle-imagen {
   flex: 1;
-  max-width: 500px;
+  max-width: 100vh;
 }
 
 .imagen-grande {
-  width: 100%;
-  height: auto;
+  max-width: 100vh;
+  width: auto;
+  height: 45vh;
   border-radius: 8px;
+  border-color: #666;
 }
 
 .detalle-info {

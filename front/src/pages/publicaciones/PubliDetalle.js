@@ -4,6 +4,7 @@ import "../../HarryStyles/PubliDetalle.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ListarComentarios from "../Comentarios/ListarComentarios";
+import { FaArrowRight,FaArrowLeft } from "react-icons/fa";
 
 const PubliDetalle = () => {
     const Token = localStorage.getItem('token');
@@ -13,6 +14,8 @@ const PubliDetalle = () => {
     const [publicacion, setPublicacion] = useState(null);
     const [valoraciones, setValoraciones] = useState('');
     const [dueño, setDueño] = useState('')
+
+    const [numeroFoto, setNumeroFoto] = useState(0);
 
     useEffect(() => {
         console.log(`Obteniendo datos para id: ${id}`);
@@ -25,6 +28,10 @@ const PubliDetalle = () => {
         let nuevoArr = [];
         publicacionObj.centros.forEach((centro)=> nuevoArr.push(centro.nombre));
         publicacionObj.centros = nuevoArr;
+
+
+        console.log('NUMERO FOTO: '+numeroFoto);
+        console.log('Max fotos: ' + publicacionObj.imagenes.length);
 
         const idNumero = Number(id);
 
@@ -69,6 +76,17 @@ const PubliDetalle = () => {
         }
     };
 
+    const avanzarFoto = () => {
+        if ((numeroFoto+1) < publicacion.imagenes.length){
+            setNumeroFoto(numeroFoto+1);
+        }
+    }
+
+    const retrocederFoto = () => {
+        if ((numeroFoto-1) >= 0) {
+            setNumeroFoto(numeroFoto-1);
+        }
+    }
 
     if (!publicacion) {
         return <div>Cargando...</div>;
@@ -85,7 +103,15 @@ const PubliDetalle = () => {
         <div className="detalle-container">
             <div className="detalle-imagen">
                 <br/><br/><br/><br/><br/><br/><br/><br/>
-                 <img className="imagen-grande" src={publicacion.imagen} alt="imagen no encontrada" />
+                <img className="imagen-grande" src={publicacion.imagenes[numeroFoto].archivo} alt="imagen no encontrada" />
+                <div className="botones-imagenes">
+                    <button className='botonCampanita' onClick={retrocederFoto} disabled={!(numeroFoto > 0)}>
+                        <FaArrowLeft size={32} className='botonCampanita' />
+                    </button>
+                    <button className='botonCampanita' onClick={avanzarFoto} disabled={!(numeroFoto < (publicacion.imagenes.length - 1))}>
+                        <FaArrowRight size={32} className='botonCampanita' />
+                    </button>
+                </div>
             </div>
             <div className="detalle-info">
                 <br/><br/><br/><br/><br/><br/><br/><br/>

@@ -110,12 +110,16 @@ const ValidarIntercambio = () => {
 					</ select>
 					</>
 				}
-				<br/><br/>
-				<select id="donacion" onChange={handleDonacionChange} required >
-                    <option value="">¿Se obtuvo alguna donación?</option>
-					<option value="1">Si</option>
-					<option value="0">No</option>
-				</ select>
+				{(!(enableCancelado && motivo == 'ausencia ambas partes')) &&
+				<>
+					<br /><br />
+					<select id="donacion" onChange={handleDonacionChange} required >
+						<option value="">¿Se obtuvo alguna donación?</option>
+						<option value="1">Si</option>
+						<option value="0">No</option>
+					</ select>
+				</>
+				}
 				<br /> <br/>
             </label>
 

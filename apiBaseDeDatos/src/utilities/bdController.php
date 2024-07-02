@@ -2,7 +2,7 @@
 
 class bdController
 {
-
+    public string $lastId;
     /**
      * @param string $tableName - Nombre de la tabla que corresponde al controlador instanciado
      * @param PDO $pdo - Conexion a la base de datos
@@ -339,6 +339,8 @@ class bdController
 
         $pudo = $this->pdo->prepare($queryInsert)->execute();
 
+        $this->lastId = $this->pdo->lastInsertId();
+
         return $pudo;
     }
 
@@ -377,7 +379,7 @@ class bdController
     public function getAll(array $whereParams, bool $like = false)
     {
         $querySelect = $this->generarSelect($whereParams, null, $like);
-        //error_log($querySelect);
+        error_log($querySelect);
         $result = $this->pdo->query($querySelect)->fetchAll();
         if ($result == false) {
             $result = [];

@@ -1,5 +1,7 @@
 <?php
 
+use Collections\CollectionsStream;
+
 require_once __DIR__ . '/../utilities/bdController.php';
 
 class PublicacionesHandler extends BaseHandler{
@@ -114,14 +116,25 @@ class PublicacionesHandler extends BaseHandler{
         if ($imagenes && !empty($listado)){
             $newList = [];
             foreach ($listado as $pos => $publi){
-                $where = ['id' => $publi['id']];
+                $where = ['publicacion' => $publi['id']];
                 $publi['imagenes'] = listarImg($where);
                 $newList[$pos] = $publi;
             }
             $listado = $newList;
         }
 
+        error_log('Publis: ' . json_encode($listado));
+
         return $listado;
+    }
+
+    public function idPorNombre(string $nombre){
+        if ($nombre == '' || !$this->existe(['nombre' => $nombre])) return false;
+
+        $publicacion = (array)$this->listar(['nombre' => $nombre]);
+
+        $publicacion = $publicacion[0];
+        return $publicacion['id'];
     }
 
     public function getDueño(int|string $id){
@@ -133,6 +146,19 @@ class PublicacionesHandler extends BaseHandler{
 
         $publi = $publi[0];
         return $publi['user'];
+    }
+
+    public function crear(array $datos)
+    {
+        if(parent::crear($datos)){
+            foreach($datos as $clave => $valor){
+                if (str_starts_with($clave, 'foto')){
+                    agregarImg(['publicacion'=>$this->lastId,'archivo'=>$valor]);
+                }else if(str_starts_with($clave, 'centro')){
+                    agregarPubliCentros(['publicacion'=>$this->lastId,'centro'=>$valor]);
+                }
+            }
+        }
     }
 
 }
