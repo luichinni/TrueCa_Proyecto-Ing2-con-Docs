@@ -75,21 +75,21 @@ $app->group('/public', function (RouteCollectorProxy $group) {
         global $estadisticador;
         $retorno = [];
 
-        $retorno['ausenciaAmbasPartes'] = $estadisticador->totalDe('ausenciaAmbasPartes', $queryParams, 'cancelado', $desde, $hasta);
+        $retorno['ausenciaAmbasPartes'] = $estadisticador->totalDe('ausencia ambas partes', $queryParams, 'cancelado', $desde, $hasta);
 
-        $retorno['ausenciaAnunciante'] = $estadisticador->totalDe('ausenciaAnunciante', $queryParams, 'cancelado', $desde, $hasta);
+        $retorno['ausenciaAnunciante'] = $estadisticador->totalDe('ausencia anunciante', $queryParams, 'cancelado', $desde, $hasta);
 
-        $retorno['ausenciaOfertante'] = $estadisticador->totalDe('ausenciaOfertante', $queryParams, 'cancelado', $desde, $hasta);
+        $retorno['ausenciaOfertante'] = $estadisticador->totalDe('ausencia ofertante', $queryParams, 'cancelado', $desde, $hasta);
 
-        $retorno['productoAnunciadoNoEsLoEsperado'] = $estadisticador->totalDe('productoAnunciadoNoEsLoEsperado', $queryParams, 'rechazado', $desde, $hasta);
+        $retorno['productoAnunciadoNoEsLoEsperado'] = $estadisticador->totalDe('producto anunciado no es lo esperado', $queryParams, 'rechazado', $desde, $hasta);
 
-        $retorno['productoOfertadoNoEsLoEsperado'] = $estadisticador->totalDe('productoOfertadoNoEsLoEsperado', $queryParams, 'rechazado', $desde, $hasta);
+        $retorno['productoOfertadoNoEsLoEsperado'] = $estadisticador->totalDe('producto ofertado no es lo esperado', $queryParams, 'rechazado', $desde, $hasta);
 
-        $retorno['elProductoNoEsDeInteres'] = $estadisticador->totalDe('elProductoNoEsDeInteres', $queryParams, 'rechazado', $desde, $hasta);
+        $retorno['elProductoNoEsDeInteres'] = $estadisticador->totalDe('el producto no es de interes', $queryParams, 'rechazado', $desde, $hasta);
 
-        $retorno['fechaYHoraNoConvenientes'] = $estadisticador->totalDe('fechaYHoraNoConvenientes', $queryParams, 'rechazado', $desde, $hasta);
+        $retorno['fechaYHoraNoConvenientes'] = $estadisticador->totalDe('fecha y hora no convenientes', $queryParams, 'rechazado', $desde, $hasta);
 
-        $retorno['seEligióUnaOfertaSuperadora'] = $estadisticador->totalDe('seEligióUnaOfertaSuperadora', $queryParams, 'cancelado', $desde, $hasta);
+        $retorno['seEligióUnaOfertaSuperadora'] = $estadisticador->totalDe('se eligió una oferta superadora', $queryParams, 'cancelado', $desde, $hasta);
 
         $retorno['concretado'] = $estadisticador->totalDe('', $queryParams, 'concretado', $desde, $hasta);
 
@@ -98,6 +98,8 @@ $app->group('/public', function (RouteCollectorProxy $group) {
 
         $queryParams['donacion'] = 1;
         $retorno['concretado con donacion'] = $estadisticador->totalDe('', $queryParams, 'concretado', $desde, $hasta);
+        $retorno['cancelado con donacion'] = $estadisticador->totalDe('', $queryParams, 'cancelado', $desde, $hasta);
+        $retorno['rechazado con donacion'] = $estadisticador->totalDe('', $queryParams, 'rechazado', $desde, $hasta);
 
         $retorno['Mensaje'] = 'Estadisticas calculadas con éxito';
 

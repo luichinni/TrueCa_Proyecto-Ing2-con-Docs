@@ -379,7 +379,7 @@ class bdController
     public function getAll(array $whereParams, bool $like = false)
     {
         $querySelect = $this->generarSelect($whereParams, null, $like);
-        //error_log($querySelect);
+        error_log($querySelect);
         $result = $this->pdo->query($querySelect)->fetchAll();
         if ($result == false) {
             $result = [];
