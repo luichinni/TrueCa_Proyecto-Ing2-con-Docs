@@ -2,7 +2,7 @@
 
 class bdController
 {
-
+    public string $lastId;
     /**
      * @param string $tableName - Nombre de la tabla que corresponde al controlador instanciado
      * @param PDO $pdo - Conexion a la base de datos
@@ -338,6 +338,8 @@ class bdController
         $queryInsert = $this->generarInsert($datosIn);
 
         $pudo = $this->pdo->prepare($queryInsert)->execute();
+
+        $this->lastId = $this->pdo->lastInsertId();
 
         return $pudo;
     }

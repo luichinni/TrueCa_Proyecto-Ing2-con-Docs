@@ -1,5 +1,7 @@
 <?php
 
+use Collections\CollectionsStream;
+
 require_once __DIR__ . '/../utilities/bdController.php';
 
 class PublicacionesHandler extends BaseHandler{
@@ -114,12 +116,14 @@ class PublicacionesHandler extends BaseHandler{
         if ($imagenes && !empty($listado)){
             $newList = [];
             foreach ($listado as $pos => $publi){
-                $where = ['id' => $publi['id']];
+                $where = ['publicacion' => $publi['id']];
                 $publi['imagenes'] = listarImg($where);
                 $newList[$pos] = $publi;
             }
             $listado = $newList;
         }
+
+        error_log('Publis: ' . json_encode($listado));
 
         return $listado;
     }
@@ -142,6 +146,24 @@ class PublicacionesHandler extends BaseHandler{
 
         $publi = $publi[0];
         return $publi['user'];
+    }
+
+    public function crear(array $datos)
+    {
+        if(parent::crear($datos)){
+            error_log('ENTRA IF');
+            foreach($datos as $clave => $valor){
+                error_log('MIS DATOS DEL FOREACH: '.$clave.' ; valor: '.$valor);
+                error_log('Ultima publi id '.$this->lastId);
+                error_log('star with foto: ' . json_encode(str_starts_with($clave,'foto')));
+                error_log('star with centro: ' . json_encode(str_starts_with($clave,'centro')));
+                if (str_starts_with($clave, 'foto')){
+                    agregarImg(['publicacion'=>$this->lastId,'archivo'=>$valor]);
+                }else if(str_starts_with($clave, 'centro')){
+                    agregarPubliCentros(['publicacion'=>$this->lastId,'centro'=>$valor]);
+                }
+            }
+        }
     }
 
 }

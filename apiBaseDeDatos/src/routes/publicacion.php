@@ -11,7 +11,7 @@ require_once __DIR__ . '/../models/publiDb.php';
 $app->group('/public', function (RouteCollectorProxy $group)  {
     $group->POST('/newPublicacion', function ($request, $response, $args){
         $bodyParams = (array) $request->getParsedBody();
-        
+        error_log('body' . json_encode($bodyParams));
         global $publicacionesHandler;
 
         $publicacionesHandler->crear($bodyParams);
