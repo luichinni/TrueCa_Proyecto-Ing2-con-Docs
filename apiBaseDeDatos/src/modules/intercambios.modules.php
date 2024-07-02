@@ -120,57 +120,45 @@ class IntercambiosHandler extends BaseHandler{
 
     public function listar(array $datos, bool $like = false, bool $centro_id = false)
     {
-        /* if (array_key_exists('publicacionOferta', $datos) && !ctype_digit($datos['publicacionOferta'])) $datos['publicacionOferta'] = $this->publiHandler->idPorNombre($datos['publicacionOferta']);
-        if (array_key_exists('publicacionOfertada', $datos) && !ctype_digit($datos['publicacionOfertada'])) $datos['publicacionOfertada'] = $this->publiHandler->idPorNombre($datos['publicacionOfertada']); */
-        
-        $listado = parent::listar(['estado'=>$datos['estado'],'centro'=>$datos['centro']]);
-
+        //error_log(json_encode($datos) . ' like: '.json_encode($like));
+        $listado = parent::listar(['estado'=>$datos['estado'],'centro'=>$datos['centro']],$like);
+        $publiHandler = $this->publiHandler;
         $stream = new CollectionsStream($listado);
-        return $stream
-            ->filter(function ($intercambio) use ($datos, $like) {
-                return (!array_key_exists('publicacionOferta', $datos) || $datos['publicacionOferta'] == '' || (count($this->publiHandler->listar(['nombre' => $datos['publicacionOferta']])) != 0));
+        $return = $stream
+            ->filter(function ($intercambio) use ($datos,$like,$publiHandler){
+                return !array_key_exists('username',$datos) || (array_key_exists('username', $datos) && $datos['username']=='') || $publiHandler->getDueño($intercambio['publicacionOferta']) == $datos['username'] || $publiHandler->getDueño($intercambio['publicacionOfertada']) == $datos['username'];
             })
-            ->filter(function ($intercambio) use ($datos, $like) { // true lo deja, false lo quita
-                return (!array_key_exists('publicacionOfertada', $datos) || $datos['publicacionOfertada'] == '' || (count($this->publiHandler->listar(['nombre' => $datos['publicacionOfertada']])) != 0));
+            ->filter(function ($intercambio) use ($datos, $like, $publiHandler) {
+                // obtener todas las publis y si publi nombre = datos oferta, nos quedamos con los intercambios cuyo id sea el de la publi
+                $valido = 0;
+                if (array_key_exists('publicacionOferta',$datos) && $datos['publicacionOferta'] != ''){
+                    $valido = count((new CollectionsStream($publiHandler->listar(['nombre' => $datos['publicacionOferta'],'user'=>$datos['username']], $like)))
+                    ->filter(function ($publi) use ($intercambio) {
+                        return $intercambio['publicacionOferta'] == $publi['id'];
+                    })->get());    
+                }
+                error_log('Valido1 = '.$valido);
+                return (!array_key_exists('publicacionOferta', $datos) || $datos['publicacionOferta'] == '' || ($valido != 0));
             })
-            ->filter(function ($intercambio) use ($datos, $like) { // true lo deja, false lo quita
-                return (!array_key_exists('username', $datos) || $datos['username'] == '' || (count($this->publiHandler->listar(['user' => $datos['username']])) != 0));
+            ->filter(function ($intercambio) use ($datos, $like, $publiHandler) { // true lo deja, false lo quita
+                // obtener todas las publis y si publi nombre = datos oferta, nos quedamos con los intercambios cuyo id sea el de la publi
+                $valido = 0;
+                if (array_key_exists('publicacionOfertada', $datos) && $datos['publicacionOfertada'] != '') {
+                    $valido = count((new CollectionsStream($publiHandler->listar(['nombre' => $datos['publicacionOfertada'], 'user' => $datos['username']], $like)))
+                        ->filter(function ($publi) use ($intercambio) {
+                            return $intercambio['publicacionOfertada'] == $publi['id'];
+                        })->get());
+                }
+                //error_log('Valido2 = ' . $valido);
+                return (!array_key_exists('publicacionOfertada', $datos) || $datos['publicacionOfertada'] == '' || ($valido != 0));
             })
             ->distinct(fn ($i1, $i2) => $i1['id'] == $i2['id'])
             ->get();
 
-        /* 
+        $this->status = (count($return) == 0) ? 404 : 200;
+        $this->mensaje = (count($return) == 0 ) ? 'No se encontraron intercambios' : 'Intercambios listados con exito';
 
-        $listado = parent::listar($datos, $like);
-        error_log('Datos: '.json_encode($datos) . ' like:'.json_encode($like));
-        error_log(''); 
-
-        error_log('Luego de parent: '.json_encode($listado));
-        error_log('');
-
-        if (array_key_exists('username',$datos) && $datos['username']!=''){
-            $newList = [];
-            foreach ($listado as $pos => $intercambio) {
-                if ($this->publiHandler->existe(['user' => $datos['username'], 'id' => $intercambio['publicacionOferta']])) $newList[] = $intercambio;
-                if ($this->publiHandler->existe(['user' => $datos['username'], 'id' => $intercambio['publicacionOfertada']])) $newList[] = $intercambio;
-            }
-            $listado = $newList;
-        } */
-
-        /* error_log('Luego de username: ' . json_encode($listado));
-        error_log(''); */
-
-        /* if (!$centro_id){
-            $newList = [];
-            foreach($listado as $pos => $intercambio){
-                $intercambio['centro'] = $this->centroHandler->nombre($intercambio['centro']);
-                $newList[] = $intercambio;
-            }
-            $listado = $newList;
-        } */
-
-        /* error_log('Luego de centro: ' . json_encode($listado));
-        error_log(''); */
+        return $return;
     }
 
 }
