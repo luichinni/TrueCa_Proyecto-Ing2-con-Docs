@@ -1,10 +1,8 @@
 import './App.css';
 import React from "react";
-import ReactDom from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/Navbar";
 import Header from './components/Header';
-import ListarPublis from './pages/publicaciones/ListarPublis';
 import ListarCentro from './pages/centros/ListarCentro';
 import AgregarCategoria from './pages/categorias/AgregarCategoria';
 import Dashboard from "./pages/Dashboard";
@@ -32,6 +30,8 @@ import ListarPublisUsuario from './pages/publicaciones/PublisUsuario';
 import ModificarUsuario from './pages/sesion/ModificarUsuario';
 import ModificarCentro from './pages/centros/ModificarCentro';
 import PuntuarUsuario from './pages/sesion/PuntuarUsuario';
+import EditarComentario from './pages/Comentarios/EditarComentario';
+import EditarRespuesta from './pages/Comentarios/EditarRespuesta';
 
 function App() {
   return (
@@ -64,6 +64,8 @@ function App() {
                 <Route path={"/ModificarCentro/:id"} element={<ModificarCentro />} />
 
                 <Route path={"/DeleteComentario/:id"} element={<DeleteComentario />} />
+                <Route path={"/EditarComentario/:id"} element={<EditarComentario />} />
+                
 
                 <Route path={"/AgregarCategoria"} element={<AgregarCategoria />} />
                 <Route path={"/Categorias"} element={<ListarCategoria/> }/>
