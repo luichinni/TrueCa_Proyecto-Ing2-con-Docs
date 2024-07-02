@@ -1,21 +1,18 @@
 import axios from 'axios';
-import Publicacion from '../../components/Publicacion';
 import FiltroEstadistica from '../../components/FiltroEstadistica';
 import '../../HarryStyles/Publicaciones.css';
 import { useEffect, useState } from 'react';
-import Estadistica from '../../components/Estadistica';
 import AnyChart from 'anychart-react';
 
 const IntercambiosEstats = () => {
   const [intercambios, setIntercambios] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [texto, setTexto] = useState('')
   const username = localStorage.getItem('username');
   const token = localStorage.getItem('token');
   const [parametros, setParametros] = useState({
-    publicacionOferta: "",
-    publicacionOfertada: "",
+    desde: "",
+    hasta: "",
     estado: "",
     centro: ""
   });
@@ -24,8 +21,6 @@ const IntercambiosEstats = () => {
     const fetchData = async () => {
       setLoading(true);
       setError('');
-
-      setTexto('ausencia ambas partes')
 
       try {
         const queryParams = new URLSearchParams({
@@ -36,7 +31,6 @@ const IntercambiosEstats = () => {
         }).toString();
 
         console.log(`params: ${queryParams}`)
-
 
         const url = `http://localhost:8000/public/estadisticas?${queryParams}&token=${localStorage.getItem('token')}`;
         console.log(`mandar: ${url}`)
@@ -62,8 +56,21 @@ const IntercambiosEstats = () => {
   }, [parametros, username, token]);
 
   const handleParametrosChange = async (newParametros) => {
-      setParametros(newParametros);
+    setParametros(newParametros);
   };
+
+  const datosGrafico = [
+    { x: "Ausencia Ambas Partes", value: intercambios.ausenciaAmbasPartes },
+    { x: "Ausencia Anunciante", value: intercambios.ausenciaAnunciante },
+    { x: "Ausencia Ofertante", value: intercambios.ausenciaOfertante },
+    { x: "Producto Anunciado No Es Lo Esperado", value: intercambios.productoAnunciadoNoEsLoEsperado },
+    { x: "Producto Ofertado No Es Lo Esperado", value: intercambios.productoOfertadoNoEsLoEsperado },
+    { x: "El Producto No Es De Interes", value: intercambios.elProductoNoEsDeInteres },
+    { x: "Fecha Y Hora No Convenientes", value: intercambios.fechaYHoraNoConvenientes },
+    { x: "Se Eligió Una Oferta Superadora", value: intercambios.seEligióUnaOfertaSuperadora },
+    { x: "Concretado", value: intercambios.concretado },
+    { x: "Concretado con Donación", value: intercambios.concretadoConDonacion }
+  ];
 
   return (
     <div className='content'>
@@ -79,18 +86,22 @@ const IntercambiosEstats = () => {
             <h1 className='sin-publi'>{error}</h1>
           </>
         ) : (
+          <>
+          <br/><br/><br/><br/>
           <AnyChart
             id="pieChart"
-            width={800}
-            height={600}
+            width={1100}
+            height={550}
             type="pie"
-            data={[intercambios.ausenciaAmbasPartes, intercambios.ausenciaAnunciante, intercambios.ausenciaOfertante]}
-            title="Simple pie chart"
-          />)
-        }
+            data={datosGrafico}
+            title="Distribución de Intercambios"
+          />
+          </>
+        )}
       </div>
     </div>
   );
 }
 
 export default IntercambiosEstats;
+

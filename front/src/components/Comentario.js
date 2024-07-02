@@ -1,7 +1,6 @@
 import '../HarryStyles/Comentario.css';
 import DeleteComentario from '../pages/Comentarios/DeleteComentario';
 import { useEffect, useState } from 'react';
-import ModificarComentario from '../pages/Comentarios/ModificarComentario';
 import { CiTrash } from 'react-icons/ci'; 
 import axios from "axios"
 import { MdEdit } from "react-icons/md";
