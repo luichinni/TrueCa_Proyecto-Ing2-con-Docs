@@ -12,7 +12,7 @@ abstract class BaseHandler{
     }
 
     public function existe(array $datos, bool $porId = false){
-        if (($porId) && ((array_key_exists('id', $datos) && $datos['id']=='' && !$this->db->exists(['id' => $datos['id']])) || !array_key_exists('id', $datos))) {
+        if (($porId) && ((array_key_exists('id', $datos) && $datos['id']=='' || !$this->db->exists(['id' => $datos['id']])) || !array_key_exists('id', $datos))) {
             $this->mensaje = 'La id no es válida';
             return false;
         }

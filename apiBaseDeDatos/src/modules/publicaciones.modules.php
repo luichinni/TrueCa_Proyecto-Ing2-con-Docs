@@ -124,6 +124,15 @@ class PublicacionesHandler extends BaseHandler{
         return $listado;
     }
 
+    public function idPorNombre(string $nombre){
+        if ($nombre == '' || !$this->existe(['nombre' => $nombre])) return false;
+
+        $publicacion = (array)$this->listar(['nombre' => $nombre]);
+
+        $publicacion = $publicacion[0];
+        return $publicacion['id'];
+    }
+
     public function getDueño(int|string $id){
         if (!$this->existe(['id' => $id])) return false;
 

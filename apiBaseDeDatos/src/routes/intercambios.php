@@ -27,7 +27,7 @@ $app->group('/public', function (RouteCollectorProxy $group) {
     $group->GET('/listarIntercambios', function (Request $request,Response $response, $args) {
         $queryParams = $request->getQueryParams();
 
-        $like = (array_key_exists('like', $queryParams)) ? $queryParams['like'] : true;
+        $like = (array_key_exists('like', $queryParams) && $queryParams['like'] != '') ? $queryParams['like'] : true;
 
         global $intercambioHandler;
 

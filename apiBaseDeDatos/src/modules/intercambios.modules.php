@@ -1,5 +1,6 @@
 <?php
 
+use Collections\CollectionsStream;
 require_once __DIR__ . '/../utilities/bdController.php';
 
 class IntercambiosHandler extends BaseHandler{
@@ -119,27 +120,57 @@ class IntercambiosHandler extends BaseHandler{
 
     public function listar(array $datos, bool $like = false, bool $centro_id = false)
     {
-        $listado = parent::listar($datos,$like);
+        /* if (array_key_exists('publicacionOferta', $datos) && !ctype_digit($datos['publicacionOferta'])) $datos['publicacionOferta'] = $this->publiHandler->idPorNombre($datos['publicacionOferta']);
+        if (array_key_exists('publicacionOfertada', $datos) && !ctype_digit($datos['publicacionOfertada'])) $datos['publicacionOfertada'] = $this->publiHandler->idPorNombre($datos['publicacionOfertada']); */
+        
+        $listado = parent::listar(['estado'=>$datos['estado'],'centro'=>$datos['centro']]);
 
-        if (array_key_exists('username',$datos)){
+        $stream = new CollectionsStream($listado);
+        return $stream
+            ->filter(function ($intercambio) use ($datos, $like) {
+                return (!array_key_exists('publicacionOferta', $datos) || $datos['publicacionOferta'] == '' || (count($this->publiHandler->listar(['nombre' => $datos['publicacionOferta']])) != 0));
+            })
+            ->filter(function ($intercambio) use ($datos, $like) { // true lo deja, false lo quita
+                return (!array_key_exists('publicacionOfertada', $datos) || $datos['publicacionOfertada'] == '' || (count($this->publiHandler->listar(['nombre' => $datos['publicacionOfertada']])) != 0));
+            })
+            ->filter(function ($intercambio) use ($datos, $like) { // true lo deja, false lo quita
+                return (!array_key_exists('username', $datos) || $datos['username'] == '' || (count($this->publiHandler->listar(['user' => $datos['username']])) != 0));
+            })
+            ->distinct(fn ($i1, $i2) => $i1['id'] == $i2['id'])
+            ->get();
+
+        /* 
+
+        $listado = parent::listar($datos, $like);
+        error_log('Datos: '.json_encode($datos) . ' like:'.json_encode($like));
+        error_log(''); 
+
+        error_log('Luego de parent: '.json_encode($listado));
+        error_log('');
+
+        if (array_key_exists('username',$datos) && $datos['username']!=''){
             $newList = [];
             foreach ($listado as $pos => $intercambio) {
                 if ($this->publiHandler->existe(['user' => $datos['username'], 'id' => $intercambio['publicacionOferta']])) $newList[] = $intercambio;
                 if ($this->publiHandler->existe(['user' => $datos['username'], 'id' => $intercambio['publicacionOfertada']])) $newList[] = $intercambio;
             }
             $listado = $newList;
-        }
+        } */
 
-        if (!$centro_id){
+        /* error_log('Luego de username: ' . json_encode($listado));
+        error_log(''); */
+
+        /* if (!$centro_id){
             $newList = [];
             foreach($listado as $pos => $intercambio){
                 $intercambio['centro'] = $this->centroHandler->nombre($intercambio['centro']);
                 $newList[] = $intercambio;
             }
             $listado = $newList;
-        }
-        
-        return $listado;
+        } */
+
+        /* error_log('Luego de centro: ' . json_encode($listado));
+        error_log(''); */
     }
 
 }
