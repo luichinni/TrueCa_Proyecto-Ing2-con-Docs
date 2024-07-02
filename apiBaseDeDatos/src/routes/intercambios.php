@@ -31,6 +31,8 @@ $app->group('/public', function (RouteCollectorProxy $group) {
 
         global $intercambioHandler;
 
+        error_log('ENTRANDO CON QUERY '.json_encode($queryParams));
+
         $listado = $intercambioHandler->listar($queryParams,$like);
 
         $listado['Mensaje'] = $intercambioHandler->mensaje;

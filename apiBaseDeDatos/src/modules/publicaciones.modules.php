@@ -151,12 +151,7 @@ class PublicacionesHandler extends BaseHandler{
     public function crear(array $datos)
     {
         if(parent::crear($datos)){
-            error_log('ENTRA IF');
             foreach($datos as $clave => $valor){
-                error_log('MIS DATOS DEL FOREACH: '.$clave.' ; valor: '.$valor);
-                error_log('Ultima publi id '.$this->lastId);
-                error_log('star with foto: ' . json_encode(str_starts_with($clave,'foto')));
-                error_log('star with centro: ' . json_encode(str_starts_with($clave,'centro')));
                 if (str_starts_with($clave, 'foto')){
                     agregarImg(['publicacion'=>$this->lastId,'archivo'=>$valor]);
                 }else if(str_starts_with($clave, 'centro')){
