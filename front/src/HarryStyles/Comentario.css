@@ -18,16 +18,69 @@
     text-align: center;
     color: #999;
   }
-  
-  .Comentario {
-    margin: 10px 0;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #f9f9f9;
+  .comentario{
+    text-align: start;
   }
 
+  .comentario-info {
+    background-color: #ffffff; /* Fondo blanco */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 20px;   /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    text-align: start; /* Centra el texto */
+    text-decoration: none;
+    margin-bottom: 5px;
+  }
   
+  .comentario-info h2 {
+    font-size: 18px; /* Tamaño de fuente */
+    color: #666; /* Color de texto */
+    margin-bottom: 5px; /* Espacio debajo del título */
+  }
+  
+  .comentario-info h3 {
+    font-size: 26px; /* Tamaño de fuente */
+    color: #333; /* Color de texto */
+    margin: 5px 0; /* Espaciado */
+  }
+  .comentario-info p {
+    font-size: 13px; /* Tamaño de fuente */
+    color: #666; /* Color de texto */
+    margin: 5px 0; /* Espaciado */
+  }
+
+  .respuesta-info {
+    background-color: #ffffff; /* Fondo blanco */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 20px;   /* Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    text-align: start; /* Centra el texto */
+    text-decoration: none;
+  }
+  
+  .respuesta-info legend {
+    font-size: 14px; /* Tamaño de fuente */
+    color: #555; /* Color de texto */
+    margin-bottom: 5px; /* Espacio debajo del título */
+  }
+
+  .respuesta-info h2 {
+    font-size: 18px; /* Tamaño de fuente */
+    color: #666; /* Color de texto */
+    margin-bottom: 5px; /* Espacio debajo del título */
+  }
+  
+  .respuesta-info h3 {
+    font-size: 26px; /* Tamaño de fuente */
+    color: #333; /* Color de texto */
+    margin: 5px 0; /* Espaciado */
+  }
+  .respuesta-info p {
+    font-size: 13px; /* Tamaño de fuente */
+    color: #666; /* Color de texto */
+    margin: 5px 0; /* Espaciado */
+  }
   /* Comentario.css */
 
 .agregarBoton {

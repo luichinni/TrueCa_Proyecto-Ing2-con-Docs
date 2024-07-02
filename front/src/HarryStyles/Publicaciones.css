@@ -192,8 +192,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
   margin: 20px auto; /* Centra el contenedor horizontalmente y añade margen vertical */
   max-width: 800px; /* Ancho máximo */
-  text-align: center; /* Centra el texto */
-  box-sizing: border-box; /* Incluye el padding en el tamaño total */
   text-decoration: none;
 }
 

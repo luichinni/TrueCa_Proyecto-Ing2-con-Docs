@@ -16,7 +16,6 @@ const ListarComentarios = (props) => {
     publicacion: props.publicacion,
     user: '',
     texto: '',
-    respondeA: '',
     created_at: '',
     updated_at: ''
   });
@@ -98,9 +97,10 @@ const ListarComentarios = (props) => {
             <Comentario 
               key={comentario.id} 
               id={comentario.id}
+              publicacion={comentario.publicacion}
               user={comentario.user}
               texto={comentario.texto}
-              respondeA={comentario.respondeA}
+              respuesta={comentario.respuesta}
               fecha_publicacion={comentario.created_at}
             />
           ))
