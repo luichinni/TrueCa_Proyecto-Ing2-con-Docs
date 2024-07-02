@@ -124,7 +124,7 @@ class IntercambiosHandler extends BaseHandler{
     public function listar(array $datos, bool $like = false, bool $centro_id = false)
     {
         error_log(json_encode($datos) . ' like: '.json_encode($like));
-        $listado = parent::listar(['estado'=>$datos['estado'],'centro'=>$datos['centro'],'donacion'=>$datos['donacion']],$like);
+        $listado = parent::listar(['estado'=>$datos['estado'],'centro'=>$datos['centro'],/*'donacion'=>$datos['donacion']*/],$like);
         $publiHandler = $this->publiHandler;
         $stream = new CollectionsStream($listado);
         $return = $stream

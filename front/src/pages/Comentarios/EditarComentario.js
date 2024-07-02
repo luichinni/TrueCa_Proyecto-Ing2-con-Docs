@@ -1,4 +1,4 @@
-import { ButtonSubmit } from "../../components/ButtonSubmit";
+/*import { ButtonSubmit } from "../../components/ButtonSubmit";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -86,3 +86,4 @@ const EditarComentario = () => {
 };
 
 export default EditarComentario;
+*/

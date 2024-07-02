@@ -24,7 +24,7 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
       setError('');
 
       try {
-        
+        console.log(`oferta: ${publicacionOferta}, ofertada: ${publicacionOfertada}`)
         const url1 = `http://localhost:8000/public/listarPublicaciones?id=${publicacionOferta}&token=${Token}`;
         const response1 = await axios.get(url1);
         

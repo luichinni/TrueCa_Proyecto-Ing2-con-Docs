@@ -43,6 +43,7 @@ const ListarIntercambios = () => {
 
 
         const url = `http://localhost:8000/public/listarIntercambios?${queryParams}&token=${localStorage.getItem('token')}`;
+        console.log(`url: ${url}`)
         const response = await axios.get(url);
 
         if (response.data.Mensaje === 'No hay intercambios disponibles') {
