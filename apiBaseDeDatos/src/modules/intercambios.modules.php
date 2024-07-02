@@ -64,6 +64,9 @@ class IntercambiosHandler extends BaseHandler{
             $this->notificacionesHandler->enviarNotificacion($publiOferta['user'],'Intercambio cancelado!','Se canceló el intercambio de '.$publiOferta['nombre'].' por '.$publiOfertada['nombre'] . ', motivo: ' . $motivo,'');
             $this->notificacionesHandler->enviarNotificacion($publiOfertada['user'], 'Intercambio cancelado!', 'Se canceló el intercambio de ' . $publiOferta['nombre'] . ' por ' . $publiOfertada['nombre'] . ', motivo: ' . $motivo, '');
             $this->mensaje = "Cancelado con éxito";
+/*             if ($motivo == 'ausencia ambas partes'){
+                
+            } */
         }else{
             $this->mensaje = "No se pudo cancelar el intercambio correctamente";
             $this->status = 500;

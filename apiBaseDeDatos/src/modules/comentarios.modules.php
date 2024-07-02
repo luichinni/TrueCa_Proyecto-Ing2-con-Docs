@@ -9,6 +9,17 @@ class ComentariosHandler extends BaseHandler{
         parent::__construct($db);
     }
 
+    public function crear(array $datos)
+    {
+        $pudo = parent::crear($datos);
+
+        if (!$pudo) return $pudo;
+
+        enviarNotificacion($this->publiHandler->getDueño($datos['publicacion']),'Han comentado tu publicacion','Alguien ha comentado en una de tus publicaciones presiona para ver más detalles','');
+
+        return $pudo;
+    }
+
     protected function restriccionBorrado(array $datos){ // true -> restringido, false -> puede seguir
         $restringido = false;
         if (!array_key_exists('userMod',$datos) || (array_key_exists('userMod', $datos) && !$this->userHandler->existe(['username' => $datos['userMod']]))){
