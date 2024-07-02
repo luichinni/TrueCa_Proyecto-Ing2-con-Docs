@@ -75,21 +75,21 @@ $app->group('/public', function (RouteCollectorProxy $group) {
         global $estadisticador;
         $retorno = [];
 
-        $retorno['ausencia ambas partes'] = $estadisticador->totalDe('ausencia ambas partes', $queryParams, 'cancelado', $desde, $hasta);
+        $retorno['ausenciaAmbasPartes'] = $estadisticador->totalDe('ausenciaAmbasPartes', $queryParams, 'cancelado', $desde, $hasta);
 
-        $retorno['ausencia anunciante'] = $estadisticador->totalDe('ausencia anunciante', $queryParams, 'cancelado', $desde, $hasta);
+        $retorno['ausenciaAnunciante'] = $estadisticador->totalDe('ausenciaAnunciante', $queryParams, 'cancelado', $desde, $hasta);
 
-        $retorno['ausencia ofertante'] = $estadisticador->totalDe('ausencia ofertante', $queryParams, 'cancelado', $desde, $hasta);
+        $retorno['ausenciaOfertante'] = $estadisticador->totalDe('ausenciaOfertante', $queryParams, 'cancelado', $desde, $hasta);
 
-        $retorno['producto anunciado no es lo esperado'] = $estadisticador->totalDe('producto anunciado no es lo esperado', $queryParams, 'rechazado', $desde, $hasta);
+        $retorno['productoAnunciadoNoEsLoEsperado'] = $estadisticador->totalDe('productoAnunciadoNoEsLoEsperado', $queryParams, 'rechazado', $desde, $hasta);
 
-        $retorno['producto ofertado no es lo esperado'] = $estadisticador->totalDe('producto ofertado no es lo esperado', $queryParams, 'rechazado', $desde, $hasta);
+        $retorno['productoOfertadoNoEsLoEsperado'] = $estadisticador->totalDe('productoOfertadoNoEsLoEsperado', $queryParams, 'rechazado', $desde, $hasta);
 
-        $retorno['el producto no es de interes'] = $estadisticador->totalDe('el producto no es de interes', $queryParams, 'rechazado', $desde, $hasta);
+        $retorno['elProductoNoEsDeInteres'] = $estadisticador->totalDe('elProductoNoEsDeInteres', $queryParams, 'rechazado', $desde, $hasta);
 
-        $retorno['fecha y hora no convenientes'] = $estadisticador->totalDe('fecha y hora no convenientes', $queryParams, 'rechazado', $desde, $hasta);
+        $retorno['fechaYHoraNoConvenientes'] = $estadisticador->totalDe('fechaYHoraNoConvenientes', $queryParams, 'rechazado', $desde, $hasta);
 
-        $retorno['se eligió una oferta superadora'] = $estadisticador->totalDe('se eligió una oferta superadora', $queryParams, 'cancelado', $desde, $hasta);
+        $retorno['seEligióUnaOfertaSuperadora'] = $estadisticador->totalDe('seEligióUnaOfertaSuperadora', $queryParams, 'cancelado', $desde, $hasta);
 
         $retorno['concretado'] = $estadisticador->totalDe('', $queryParams, 'concretado', $desde, $hasta);
 

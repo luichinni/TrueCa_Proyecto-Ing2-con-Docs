@@ -24,7 +24,7 @@
 
   .comentario-info {
     background-color: #ffffff; /* Fondo blanco */
-    border: 1px solid #ddd; /* Borde gris claro */
+    border: 2px solid #8b0000; /* Borde gris claro */
     border-radius: 20px;   /* Bordes redondeados */
     padding: 20px; /* Espaciado interno */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
@@ -52,7 +52,7 @@
 
   .respuesta-info {
     background-color: #ffffff; /* Fondo blanco */
-    border: 1px solid #ddd; /* Borde gris claro */
+    border: 2px solid #8b0000; /* Borde gris claro */
     border-radius: 20px;   /* Bordes redondeados */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
     text-align: start; /* Centra el texto */

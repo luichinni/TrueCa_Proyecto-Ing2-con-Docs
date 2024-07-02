@@ -13,7 +13,7 @@ const Header = () => {
                         width: "auto",
                         top: "1%" 
                         }} 
-                    src='./truecaLogo.webp' alt='Logo' 
+                    src='./truecaLogo.webp' alt='Logo'
                 />
             </div>
         </div>

@@ -1,0 +1,113 @@
+/* estadisticas.css */
+.content{
+    display: flex;
+}
+
+.sidebar {
+    width: 25%;
+    padding: 10px;
+    background-color: #ffffff;
+    border-right: 5px solid #ddd;
+    z-index: 1;
+    align-items: center;
+  }
+.filtro-form{
+    width: 100%;
+    align-items: center;
+}
+/* Estilos generales del calendario */
+.react-calendar {
+    width: 100%;
+    max-width: 500px;
+    background-color: #fff;
+    color: #222;
+    border: 1px solid #a0a096;
+    border-radius: 8px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.125em;
+    margin: 20px auto;
+}
+
+/* Encabezado del calendario */
+.react-calendar__navigation {
+    display: flex;
+    height: 44px;
+    margin-bottom: 1em;
+}
+
+.react-calendar__navigation button {
+    color: #8b0000;
+    min-width: 44px;
+    background: none;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    padding: 6px 0;
+    cursor: pointer;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+    background-color: #e6e6e6;
+}
+
+.react-calendar__navigation button[disabled] {
+    background-color: #f0f0f0;
+}
+
+/* Encabezado de los días de la semana */
+.react-calendar__month-view__weekdays {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.75em;
+    margin-bottom: 0.4em;
+}
+
+
+
+/* Días del calendario */
+.react-calendar__tile {
+    max-width: 100%;
+    padding: 10px 6.6667px;
+    background: none;
+    text-align: center;
+    line-height: 16px;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+    background: #e6e6e6;
+    border-radius: 6px;
+}
+
+.react-calendar__tile--now {
+    background: #d63e3e84;
+    border-radius: 6px;
+    font-weight: bold;
+    color: white;
+}
+
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+    background: #8b0000;
+    color: white;
+}
+
+.react-calendar__tile--active {
+    background: #8b0000d0;
+    border-radius: 6px;
+    color: white;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+    background: #8b0000;
+}
+
+/* Botones de navegación */
+.react-calendar__navigation__label {
+    font-weight: bold;
+    font-size: 1.25em;
+}
