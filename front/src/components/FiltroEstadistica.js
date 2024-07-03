@@ -72,6 +72,10 @@ const FiltroEstadistica = ({ onFiltroSubmit }) => {
     <>
       <form onSubmit={handleSubmit} className="filtro-formest">
         <label className="filtro-label"></label>
+        <Link to="/Intercambios">
+          <button className="filtro-button" type="button">Ver todos los intercambios</button>
+        </Link>
+        <br/><br/>
         <div>
           <Calendar
             className='calendario'
@@ -92,10 +96,6 @@ const FiltroEstadistica = ({ onFiltroSubmit }) => {
             ))}
           </select>
         }
-        <br/><br/>
-        <Link to="/Intercambios">
-          <button className="filtro-button" type="button">Ver todos los intercambios</button>
-        </Link>
         <br/><br/>
         <button className="filtro-button" type="submit">Filtrar</button>
       </form>
