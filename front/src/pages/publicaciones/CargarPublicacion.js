@@ -35,51 +35,72 @@ const AgregarPublicacion = () => {
     const handleNombreChange = (e) => setNombre(e.target.value);
     const handleDescripcionChange = (e) => setDescripcion(e.target.value);
     const handleFotosChange = async (e) => {
-        setFotos([...e.target.files]);
+        if (e.target.files.length <= 10){
+            setMyError(false);
+            setFotos([...e.target.files]);
 
-        const base64Array = [];
-        for (const file of e.target.files) {
-            const base64 = await fileToBase64(file);
-            base64Array.push(base64);
-        }
-        setFotosBase64(base64Array);
+            const base64Array = [];
+            for (const file of e.target.files) {
+                const base64 = await fileToBase64(file);
+                base64Array.push(base64);
+            }
+            setFotosBase64(base64Array);
+        }else{
+            setMsgError('Solo puedes cargar hasta 10 imagenes');
+            setMyError(true);
+        } 
     };
     const handleCategoriaChange = (e) => setCategoriaSeleccionada(e.target.value);
     const handleCentrosChange = (e) => {
         const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
-        setCentrosSeleccionados(selectedValues);
+        if (selectedValues.length != 0 && selectedValues.length <= 3){
+            setMyError(false);
+            setCentrosSeleccionados(selectedValues);
+        }else{
+            setMsgError('Solo puedes elegir hasta 3 centros');
+            setMyError(true);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Submit button clicked!');
-
-        const formData = new FormData();
-        formData.append('nombre', nombre);
-        formData.append('descripcion', descripcion);
-        base64Fotos.forEach((file, index) => {
-            formData.append(`foto${index+1}`, file);
-        });
-        formData.append('categoria_id', categoriaSeleccionada);
-        centrosSeleccionados.forEach((centro, index) => {
-            formData.append(`centro${index+1}`, centro);
-        });
-        formData.append('user',localStorage.getItem('username'));
-        formData.append('estado','alta');
-
-        try {
-            const response = await axios.post("http://localhost:8000/public/newPublicacion", formData,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+        if (base64Fotos.length != 0){
+            if(centrosSeleccionados.lenth <= 3 && centrosSeleccionados.length != 0){
+                const formData = new FormData();
+                formData.append('nombre', nombre);
+                formData.append('descripcion', descripcion);
+                base64Fotos.forEach((file, index) => {
+                    formData.append(`foto${index+1}`, file);
                 });
-            console.log('Success:', response);
-            navigate("../Explorar");
-            window.location.reload();
-        } catch (error) {
+                formData.append('categoria_id', categoriaSeleccionada);
+                centrosSeleccionados.forEach((centro, index) => {
+                    formData.append(`centro${index+1}`, centro);
+                });
+                formData.append('user',localStorage.getItem('username'));
+                formData.append('estado','alta');
+
+                try {
+                    const response = await axios.post("http://localhost:8000/public/newPublicacion", formData,
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        });
+                    console.log('Success:', response);
+                    navigate("../Explorar");
+                    window.location.reload();
+                } catch (error) {
+                    setMyError(true);
+                    setMsgError(error.response.data.Mensaje);
+                }
+            }else{
+                setMsgError('Selecciona solo 3 centros de preferencia para poder cargar la publicacion');
+                setMyError(true);
+            }
+        }else{
+            setMsgError('Selecciona solo 10 imagenes para poder cargar la publicacion');
             setMyError(true);
-            setMsgError(error.response.data.Mensaje);
         }
     };
 
