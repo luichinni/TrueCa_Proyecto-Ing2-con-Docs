@@ -67,11 +67,12 @@ $app->group('/public', function (RouteCollectorProxy $group) {
         $queryParams = $req->getQueryParams();
 
         $desde = '2024-01-01 00:00:00';
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
         $hasta = date('Y-m-d h:i:s');
 
-        if (array_key_exists('desde', $queryParams) && $queryParams['desde']!='') $desde = $queryParams['desde'];
+        if (array_key_exists('desde', $queryParams) && $queryParams['desde'] != '') $desde = $queryParams['desde'];
         if (array_key_exists('hasta', $queryParams) && $queryParams['hasta'] != '') $hasta = $queryParams['hasta'];
-
+        error_log(json_encode($queryParams). 'desde: '.$desde.' hasta: '.$hasta);
         global $estadisticador;
         $retorno = [];
 
@@ -89,7 +90,7 @@ $app->group('/public', function (RouteCollectorProxy $group) {
 
         $retorno['fechaYHoraNoConvenientes'] = $estadisticador->totalDe('fecha y hora no convenientes', $queryParams, 'rechazado', $desde, $hasta);
 
-        $retorno['seEligióUnaOfertaSuperadora'] = $estadisticador->totalDe('se eligió una oferta superadora', $queryParams, 'cancelado', $desde, $hasta);
+        $retorno['seEligióUnaOfertaSuperadora'] = $estadisticador->totalDe('se eligió una oferta superadora', $queryParams, 'rechazado', $desde, $hasta);
 
         $retorno['unaPublicacionDadaDeBaja'] = $estadisticador->totalDe('una publicacion dada de baja',$queryParams,'cancelado',$desde,$hasta);
 

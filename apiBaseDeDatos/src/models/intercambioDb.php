@@ -42,7 +42,7 @@ $camposIntercambio = [
         "default" => "true"
     ],
     'horario' => [
-        "tipo" => "datetime",
+        "tipo" => "datetime ON UPDATE CURRENT_TIMESTAMP",
         "comparador" => "="
     ],
     'estado' => [
