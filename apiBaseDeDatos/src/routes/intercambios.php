@@ -56,6 +56,7 @@ $app->group('/public', function (RouteCollectorProxy $group) {
         $bodyParams = (array) $req->getParsedBody();
         error_log(json_encode($bodyParams));
         global $intercambioHandler;
+        $bodyParams['sethorario'] = date('Y-m-d h-i-s');
 
         if (array_key_exists('setestado',$bodyParams)){
             if ($bodyParams['setestado']=='concretado'){

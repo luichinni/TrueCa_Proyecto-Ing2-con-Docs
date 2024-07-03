@@ -112,7 +112,6 @@ class IntercambiosHandler extends BaseHandler{
     // validar
     public function validar(array $datos){
         $datos['setestado'] = 'concretado';
-        $datos['sethorario'] = date('Y-m-d h-i-s');
         $this->actualizar($datos);
         $intercambio = (array)$this->listar($datos)[0];
         $publiOferta = (array)$this->publiHandler->listar(['id' => $intercambio['publicacionOferta']])[0];
