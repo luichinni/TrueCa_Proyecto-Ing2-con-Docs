@@ -70,11 +70,19 @@ const IntercambiosEstats = () => {
   };
 
   const totalIntercambios = intercambios.total || 0;
-  const 
-  const estadisticas = [
+  const donaciones = [
+    { label: "concretados", value: intercambios.concretadoConDonacion || 0 },
+    { label: "cancelado", value: intercambios.canceladoConDonacion || 0 },
+    { label: "rechazado", value: intercambios.rechazadoConDonacion || 0 },
+    { label: "total", value: (intercambios.rechazadoConDonacion + intercambios.canceladoConDonacion + intercambios.concretadoConDonacion)}
+  ]
+  const cancelados = [
     { label: "Ausencia Ambas Partes", value: intercambios.ausenciaAmbasPartes || 0 },
     { label: "Ausencia Anunciante", value: intercambios.ausenciaAnunciante || 0 },
     { label: "Ausencia Ofertante", value: intercambios.ausenciaOfertante || 0 },
+    { label: "total", value: (intercambios.rechazadoConDonacion + intercambios.canceladoConDonacion + intercambios.concretadoConDonacion)}
+  ]
+  const estadisticas = [
     { label: "Producto Anunciado No Es Lo Esperado", value: intercambios.productoAnunciadoNoEsLoEsperado || 0 },
     { label: "Producto Ofertado No Es Lo Esperado", value: intercambios.productoOfertadoNoEsLoEsperado || 0 },
     { label: "El Producto No Es De Interes", value: intercambios.elProductoNoEsDeInteres || 0 },
@@ -101,8 +109,24 @@ const IntercambiosEstats = () => {
           <>
             <br /><br /><br /><br />
             <div className='estadisticas-container'>
-              <h2>Total de Intercambios: {totalIntercambios}</h2>
+              <h2>Total de Intercambios <br/>{totalIntercambios}</h2>
               <ul>
+              <div className='donaciones'>
+                <h2>Donaciones</h2>
+                {donaciones.map((item, index) => (
+                  <li key={index}>
+                    {item.label}: {item.value} ({((item.value / totalIntercambios) * 100).toFixed(2)}%)
+                  </li>
+                ))}
+              </div>
+              <div className='donaciones'>
+                <h2>Cancelados</h2>
+                {estadisticas.map((item, index) => (
+                  <li key={index}>
+                    {item.label}: {item.value} ({((item.value / totalIntercambios) * 100).toFixed(2)}%)
+                  </li>
+                ))}
+              </div>
                 {estadisticas.map((item, index) => (
                   <li key={index}>
                     {item.label}: {item.value} ({((item.value / totalIntercambios) * 100).toFixed(2)}%)

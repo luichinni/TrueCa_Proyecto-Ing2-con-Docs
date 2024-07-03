@@ -79,12 +79,16 @@ const PubliDetalle = () => {
     const avanzarFoto = () => {
         if ((numeroFoto+1) < publicacion.imagenes.length){
             setNumeroFoto(numeroFoto+1);
+        } else if ((numeroFoto+1) == publicacion.imagenes.length){
+            setNumeroFoto(0)
         }
     }
 
     const retrocederFoto = () => {
         if ((numeroFoto-1) >= 0) {
             setNumeroFoto(numeroFoto-1);
+        } else if ((numeroFoto - 1) < 0){
+            setNumeroFoto(publicacion.imagenes.length - 1)
         }
     }
 
@@ -104,14 +108,16 @@ const PubliDetalle = () => {
             <div className="detalle-imagen">
                 <br/><br/><br/><br/><br/><br/><br/><br/>
                 <img className="imagen-grande" src={publicacion.imagenes[numeroFoto].archivo} alt="imagen no encontrada" />
+                {(publicacion.imagenes[1])&&(
                 <div className="botones-imagenes">
-                    <button className='botonCampanita' onClick={retrocederFoto} disabled={!(numeroFoto > 0)}>
+                    <button className='botonCampanita' onClick={retrocederFoto}>
                         <FaArrowLeft size={32} className='botonCampanita' />
                     </button>
-                    <button className='botonCampanita' onClick={avanzarFoto} disabled={!(numeroFoto < (publicacion.imagenes.length - 1))}>
+                    <button className='botonCampanita' onClick={avanzarFoto}>
                         <FaArrowRight size={32} className='botonCampanita' />
                     </button>
                 </div>
+                )}
             </div>
             <div className="detalle-info">
                 <br/><br/><br/><br/><br/><br/><br/><br/>
