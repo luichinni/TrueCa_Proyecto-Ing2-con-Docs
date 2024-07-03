@@ -20,20 +20,13 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
   const username = localStorage.getItem('username');
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [usuario, setUsuario] = useState('')
-  console.log(`publicacion: ${publicacion}`)
 
   function handleBorrar(){
-    console.log(id + ' ' + localStorage.getItem('username'))
     setEliminar(true);
   }
 
   function handleEditar(){
-    console.log(id + ' ' + localStorage.getItem('username'))
     setEditar(true);
-  }
-  function handleBorrarRes(){
-    console.log(id + ' ' + localStorage.getItem('username'))
-    setEliminarRes(true);
   }
 
   function handleEditarRes(){
@@ -44,7 +37,6 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
   useEffect(() => {
     const fetchData = async () => {
       setError('');
-      console.log(`usuario ${usuario} y username: ${username}`)
       try {
         const url = `http://localhost:8000/public/listarPublicaciones?id=${publicacion}&token=${localStorage.getItem('token')}`;
         const response = await axios.get(url);
@@ -55,7 +47,6 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
         } else {
           let users = procesar(response.data);
           setUsuario(users[0].user)
-          console.log(`usuario ${usuario} y username: ${username}`)
         }
       } catch (error) {
         setError('No hay publicaciones disponibles.');

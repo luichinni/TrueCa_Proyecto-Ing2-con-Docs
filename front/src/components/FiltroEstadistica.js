@@ -3,6 +3,7 @@ import axios from 'axios';
 import Calendar from "react-calendar";
 import { format } from 'date-fns';
 import "../HarryStyles/estadisticas.css";  // Asegúrate de que la ruta sea correcta
+import { Link } from 'react-router-dom';
 
 const FiltroEstadistica = ({ onFiltroSubmit }) => {
   const [centros, setCentros] = useState([]);
@@ -77,6 +78,7 @@ const FiltroEstadistica = ({ onFiltroSubmit }) => {
             value={[filtro.desde, filtro.hasta]}
           />
         </div>
+        <br/><br/>
         <select
           name="estado"
           value={filtro.estado}
@@ -90,6 +92,7 @@ const FiltroEstadistica = ({ onFiltroSubmit }) => {
           <option value="aceptado">Aceptado</option>
           <option value="concretado">Concretado</option>
         </select>
+        <br/><br/>
         {localStorage.getItem('token') !== 'tokenVolunt' &&
           <select id="centro" className='filtro-input' onChange={handleCentrosChange}>
             <option value="">Seleccione un centro</option>
@@ -100,6 +103,11 @@ const FiltroEstadistica = ({ onFiltroSubmit }) => {
             ))}
           </select>
         }
+        <br/><br/>
+        <Link to="/Intercambios">
+          <button className="filtro-button" type="submit">Ver todos los intercambios</button>
+        </Link>
+        <br/><br/>
         <button className="filtro-button" type="submit">Filtrar</button>
       </form>
     </>

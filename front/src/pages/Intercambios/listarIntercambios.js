@@ -35,7 +35,7 @@ const ListarIntercambios = () => {
         const queryParams = new URLSearchParams({
           publicacionOferta: parametros.publicacionOferta,
           publicacionOfertada: parametros.publicacionOfertada,
-          estado: ((token === 'tokenVolunt') && (parametros.estado === "")) ? 'aceptado' : parametros.estado,
+          estado: (((token === 'tokenVolunt')||(token === 'tokenAdmin')) && (parametros.estado === "")) ? 'aceptado' : parametros.estado,
           centro: (token === 'tokenVolunt')? centro : (parametros.centro),
           username: token === 'tokenUser' ? username : parametros.username,
         }).toString();
