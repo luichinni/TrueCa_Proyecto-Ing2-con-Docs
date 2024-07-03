@@ -10,7 +10,7 @@ const PuntuarUsuario = () => {
   const [myError, setMyError] = useState(false);
   const Token = localStorage.getItem('token');
   const username = localStorage.getItem('username');
-  const { publicacionOferta, publicacionOfertada } = useParams();
+  const { publicacionOferta, publicacionOfertada, publicacion } = useParams();
   const [userOferto, setUserOferto] = useState('');
   const [userPubli, setUserPubli] = useState('');
   const [msgError, setMsgError] = useState('No deberías estar viendo este mensaje');
@@ -69,6 +69,7 @@ const PuntuarUsuario = () => {
     const formData = new FormData();
     formData.append('userValorado', userValorado);
     formData.append('userValorador', username);
+    formData.append('intercambio', publicacion)
     formData.append('puntos', puntuacion);
 
     try {

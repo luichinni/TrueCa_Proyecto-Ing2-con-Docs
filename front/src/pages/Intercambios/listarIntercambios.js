@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Publicacion from '../../components/Publicacion';
 import FiltroIntercambio from '../../components/FiltroIntercambio';
+import '../../HarryStyles/Intercambios.css'
 import '../../HarryStyles/Publicaciones.css';
 import { useEffect, useState } from 'react';
 import Intercambio from '../../components/Intercambio';
@@ -106,7 +107,7 @@ const ListarIntercambios = () => {
   }
 
   return (
-    <div className='content'>
+    <div className='contentInter'>
       <div className='sidebar'>
         <FiltroIntercambio onFiltroSubmit={handleParametrosChange} />
       </div>
@@ -128,6 +129,7 @@ const ListarIntercambios = () => {
               publicacionOfertada={intercambio.publicacionOfertada}
               ofertaAcepta={intercambio.ofertaAcepta}
               ofertadaAcepta={intercambio.ofertadaAcepta}
+              motiv={intercambio.motivo}
               horario={intercambio.horario}
               estado={intercambio.estado}
               descripcion={intercambio.descripcion}

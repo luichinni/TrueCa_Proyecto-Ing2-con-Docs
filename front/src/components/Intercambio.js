@@ -1,22 +1,28 @@
 import "../HarryStyles/Intercambios.css";
-import "../HarryStyles/Publicaciones.css"
+import "../HarryStyles/Publicaciones.css";
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import {Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Publicacion from "./Publicacion";
 import PuntuarUsuario from "../pages/sesion/PuntuarUsuario";
 
-const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horario, estado, ofertaAcepta, ofertadaAcepta }) => {
+const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horario, estado, ofertaAcepta, ofertadaAcepta, motiv}) => {
   const [publi1, setPubli1] = useState([]);
   const [publi2, setPubli2] = useState([]);
   const [userPubli, setUserPubli] = useState('');
   const [userOferto, setUserOferto] = useState('');
   const [error, setError] = useState('');
+  const [puntuado, setPuntuado] = useState(true);
+  const [puntuacionHecha, setPuntuacionHecha] = useState(false);
   const username = localStorage.getItem('username');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [motivo,setMotivo] = useState('');
+  const [enableRechazado, setEnableRechazado] = useState(false);
 
   const Token = localStorage.getItem('token');
+
+  const handleMotivo = (e) => setMotivo(e.target.value);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,10 +71,24 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
       } finally {
         setLoading(false);
       }
+
+      // Verificar si ya se ha hecho una puntuación
+      try {
+        const url3 = `http://localhost:8000/public/username=${username}`;
+        const response3 = await axios.get(url3);
+        
+        if (response3.data.puntuacionHecha) {
+          setPuntuacionHecha(true);
+        } else {
+          setPuntuacionHecha(false);
+        }
+      } catch (error) {
+        console.error('Error al verificar la puntuación:', error);
+      }
     };
 
     fetchData();
-  }, [publicacionOferta, publicacionOfertada, Token]);
+  }, [publicacionOferta, publicacionOfertada, Token, id, username]);
 
   function procesar(publicaciones) {
     let publisCopy = [];
@@ -90,6 +110,7 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
       const formData = new FormData();
       formData.append('id', id);
       formData.append('setestado', 'rechazado');
+      formData.append('setmotivo', motivo);
       const respon = await axios.put(`http://localhost:8000/public/updateIntercambio`, formData, {
         headers: {
           "Content-Type": "application/json",
@@ -133,12 +154,15 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
     navigate(`../ModificarInter/${id}/${publi1[0]?.id}`);
   };
 
-  const PuntuarUsuario = () =>{
-    let pOferta=publi1[0].id 
-    let pOfertada=publi2[0].id
-    
+  const PuntuarUsuario = () => {
+    let pOferta = publi1[0].id;
+    let pOfertada = publi2[0].id;
     navigate(`../PuntuarUsuario/${pOferta}/${pOfertada}`);
   }
+
+  const desplegarMotivos = (e) =>{
+    setEnableRechazado(prevEnableRechazado => !prevEnableRechazado);
+	} 
 
   return (
     <li className="intercambio-item">
@@ -146,7 +170,7 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
       <div className="intercambio-content">
         <div className="publicaciones-container">
           <div className="publicacioninter">
-            Publicación
+            <p>Publicación</p>
             {publi1.map(publicacion => (
               <Publicacion
                 key={publicacion.id}
@@ -162,7 +186,7 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
             ))}
           </div>
           <div className="publicacioninter">
-            Oferta Recibida
+            <p>Oferta Recibida</p>
             {publi2.map(publicacion => (
               <Publicacion
                 key={publicacion.id}
@@ -182,7 +206,10 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
           <p><strong>Centro:</strong> {centro}</p>
           <p><strong>Horario:</strong> {horario}</p>
           <p><strong>Estado:</strong> {estado}</p>
-  
+          {(estado === 'cancelado' || estado === 'rechazado')?(
+          <p><strong>Motivo:</strong> {motiv}</p>
+          )
+          :(<></>)}
           { (estado === 'aceptado' || estado === 'pendiente') ? (
               (Token === 'tokenAdmin' || Token === 'tokenVolunt') ? (
                 <button className="detalle-button" onClick={handleValidarClick}>
@@ -193,9 +220,21 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
               <button className="detalle-button" onClick={handleModificarClick}>
                 Modificar
               </button>
-              <button className="detalle-button" onClick={handleRechazadoClick}>
-                Rechazar
+              <button className="detalle-button" onClick={desplegarMotivos}>
+                {enableRechazado?'Cancelar':'Rechazar'}
               </button>
+              {(enableRechazado)&&
+                <form onSubmit={handleRechazadoClick}>
+                <br/><br/>
+                <select id="motivo" onChange={handleMotivo} required> 
+                  <option value="">Seleccione el motivo de rechazo</option>
+                  <option value="fecha y hora no convenientes">La fecha y hora no son convenientes</option>
+                  <option value="el producto no es de interes">El producto no es de Interes</option>
+                </ select>
+                <button className="detalle-button">Rechazar </button>
+                </form>
+              }
+
               {console.log(`Entro a condición de confirmar: ${userPubli} y ${userOferto}`)}
               {((userPubli == username && ofertaAcepta == false) || (userOferto == username && ofertadaAcepta == false)) ? (
                 <>
@@ -205,12 +244,12 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
                   </button>
                 </>):(<></>)}
               </>)):(
-              (estado === 'concretado')?(
+              ((estado === 'concretado') && !puntuacionHecha) ? (
                 <>
                   <button onClick={PuntuarUsuario}>Puntuar al Otro usuario</button>
                 </>
-                ):(<></>)
-              )}
+              ):(<></>)
+            )}
         </div>
       </div>
     </li>
