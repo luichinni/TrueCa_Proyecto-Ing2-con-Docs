@@ -40,7 +40,7 @@ class CentroHandler extends BaseHandler{
     }
 
     public function comprobarVoluntariosEn(int|string $id){
-        return validarCentroVolun(['centro'=>$id]);
+        return !validarCentroVolun(['centro'=>$id]);
     }
 
     protected function restriccionBorrado(array $datos){ // true -> restringido, false -> puede seguir

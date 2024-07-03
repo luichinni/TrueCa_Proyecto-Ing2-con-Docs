@@ -39,7 +39,7 @@ $app->group('/public', function (RouteCollectorProxy $group) use ($pdo) {
         global $centrosHandler;
 
         $centrosHandler->borrar($queryParams);
-
+        error_log($centrosHandler->mensaje);
         $response->getBody()->write(json_encode(['Mensaje'=>$centrosHandler->mensaje]));
 
         return $response->withStatus($centrosHandler->status)->withHeader('Content-Type', 'application/json');
