@@ -69,8 +69,8 @@ $app->group('/public', function (RouteCollectorProxy $group) {
         $desde = '2024-01-01 00:00:00';
         $hasta = date('Y-m-d h:i:s');
 
-        if (array_key_exists('desde', $queryParams)) $desde = $queryParams['desde'];
-        if (array_key_exists('hasta', $queryParams)) $hasta = $queryParams['hasta'];
+        if (array_key_exists('desde', $queryParams) && $queryParams['desde']!='') $desde = $queryParams['desde'];
+        if (array_key_exists('hasta', $queryParams) && $queryParams['hasta'] != '') $hasta = $queryParams['hasta'];
 
         global $estadisticador;
         $retorno = [];
