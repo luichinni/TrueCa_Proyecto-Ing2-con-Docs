@@ -26,7 +26,7 @@
   max-height: 550px;
   flex-wrap: wrap; /* Permite que los elementos se ajusten a la siguiente fila si no caben en la misma */
   gap: 50px; /* Espacio entre las publicaciones */
-  padding: 20px;
+  padding: 10px;
   overflow-y: auto; /* Permite el desplazamiento vertical */
   align-items: flex-start; /* Alinea elementos al inicio para evitar espacios grandes entre filas */
 }
@@ -42,8 +42,7 @@
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   display: flex;
   flex-direction: column; /* Alinea el contenido en columna */
-  align-items: center;
-  margin: 20px; /* Añade margen */
+  align-items: center; /* Añade margen */
   padding: 20px;
   box-sizing: border-box;
 }

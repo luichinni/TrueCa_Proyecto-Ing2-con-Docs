@@ -1,18 +1,20 @@
 /* estadisticas.css */
-.content{
+.contentest{
     display: flex;
+    padding-top: 5%;
 }
 
-.sidebar {
+.sidebarest {
+    padding-top: 50%;
     width: 25%;
-    padding: 10px;
+    padding: 0px;
     background-color: #ffffff;
     border-right: 5px solid #ddd;
     z-index: 1;
     align-items: center;
   }
-.filtro-form{
-    width: 100%;
+.filtro-formest{
+    width: 90%;
     align-items: center;
 }
 /* Estilos generales del calendario */
@@ -26,7 +28,6 @@
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.125em;
-    margin: 20px auto;
 }
 
 /* Encabezado del calendario */

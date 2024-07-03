@@ -66,9 +66,8 @@ const FiltroEstadistica = ({ onFiltroSubmit }) => {
 
   return (
     <>
-      <br /><br /><br />
-      <form onSubmit={handleSubmit} className="filtro-form">
-        <label className="filtro-label">Filtrar por:</label>
+      <form onSubmit={handleSubmit} className="filtro-formest">
+        <label className="filtro-label"></label>
         <div>
           <Calendar
             className='calendario'
