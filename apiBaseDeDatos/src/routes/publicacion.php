@@ -25,6 +25,9 @@ $app->group('/public', function (RouteCollectorProxy $group)  {
         
         global $publicacionesHandler;
 
+        if (array_key_exists('centrosActuales', $bodyParams) && $bodyParams['centrosActuales'] != '') $bodyParams['centrosActuales'] = (array)json_decode($bodyParams['centrosActuales']);
+        if (array_key_exists('imagenesActuales', $bodyParams) && $bodyParams['imagenesActuales'] != '') $bodyParams['imagenesActuales'] = (array)json_decode($bodyParams['imagenesActuales']);
+
         $publicacionesHandler->actualizar($bodyParams);
 
         $response->getBody()->write(json_encode(['Mensaje'=>$publicacionesHandler->mensaje]));

@@ -36,6 +36,27 @@ class PublicacionesHandler extends BaseHandler{
         return $valido;
     }
 
+    public function actualizar(array $datos)
+    {
+        $pudo = parent::actualizar($datos);
+        if(array_key_exists('id',$datos)&& array_key_exists('imagenesActuales',$datos)){
+            eliminarImg(['publicacion' => $datos['id']]);
+            foreach ($datos['imagenesActuales'] as $img) {
+                $img = (array)$img;
+                agregarImg(['publicacion'=>$datos['id'],'archivo'=>$img['archivo']]);
+            }
+        }
+
+        if (array_key_exists('id', $datos) && array_key_exists('centrosActuales', $datos)) {
+            borrarPubliCentro(['publicacion'=>$datos['id']]);
+            foreach ($datos['centrosActuales'] as $centro) {
+                $centro = (array)$centro;
+                agregarPubliCentros(['publicacion'=>$datos['id'],'centro'=>$centro['id']]);
+            }
+        }
+        return $pudo;
+    }
+
     public function baja(array $datos){
         $pudo = false;
         $publicaciones = $this->listar($datos);
