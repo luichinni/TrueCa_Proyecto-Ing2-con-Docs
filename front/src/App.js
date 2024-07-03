@@ -30,8 +30,7 @@ import ListarPublisUsuario from './pages/publicaciones/PublisUsuario';
 import ModificarUsuario from './pages/sesion/ModificarUsuario';
 import ModificarCentro from './pages/centros/ModificarCentro';
 import PuntuarUsuario from './pages/sesion/PuntuarUsuario';
-import EditarComentario from './pages/Comentarios/EditarComentario';
-import EditarRespuesta from './pages/Comentarios/EditarRespuesta';
+
 
 function App() {
   return (
@@ -64,8 +63,8 @@ function App() {
                 <Route path={"/ModificarCentro/:id"} element={<ModificarCentro />} />
 
                 <Route path={"/DeleteComentario/:id"} element={<DeleteComentario />} />
-                <Route path={"/EditarComentario/:id"} element={<EditarComentario />} />
-                
+                { //<Route path={"/EditarComentario/:id"} element={<EditarComentario />} />
+                  }
 
                 <Route path={"/AgregarCategoria"} element={<AgregarCategoria />} />
                 <Route path={"/Categorias"} element={<ListarCategoria/> }/>
