@@ -12,6 +12,7 @@ const ModificarUsuario = () => {
     const [mail, setEmail] = useState('');
     const [mailViejo, setEmailViejo] = useState('');
     const [telefono, setTelefono] = useState('');
+    const [clave, setClave] = useState('');
     const [huboCambio, setHuboCambio] = useState(false)
     const [myError, setMyError] = useState(false);
     const username = localStorage.getItem('username')
@@ -23,7 +24,7 @@ const ModificarUsuario = () => {
     const handleNumeroDocumentoChange = (e) => {setNumeroDocumento(e.target.value); setHuboCambio(true);}
     const handleMailChange = (e) => {setEmail(e.target.value); setHuboCambio(true);}
     const handleTelefonoChange = (e) => {setTelefono(e.target.value); setHuboCambio(true);}
-
+    const handleClaveChange = (e) => {setClave(e.target.value); setHuboCambio(true);}
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -41,6 +42,7 @@ const ModificarUsuario = () => {
             setEmailViejo(usuarioData.mail);
             setEmail(usuarioData.mail)
             setTelefono(usuarioData.telefono);
+            setClave(usuarioData.clave);
           }
         } catch  (error) {
           console.error(error);
@@ -63,6 +65,7 @@ const ModificarUsuario = () => {
 			(numeroDocumento)&&formData.append('setdni', numeroDocumento);
 			(mail)&&(mail!==mailViejo)&&formData.append('setmail', mail);
 			(telefono)&&formData.append('settelefono', telefono);
+      (clave)&&formData.append('setclave', clave);
 
 			try {
 				setMyError(false);
@@ -130,7 +133,8 @@ const ModificarUsuario = () => {
         <label> Telefono: </label>
         <input placeholder={"telefono"} type="text" value={telefono} onChange={handleTelefonoChange} />  <br/><br/> 
         
-        <Link to={`/modificarContraseña/${username}`}><button className="cambiarContraseña">Cambiar contraseña</button></Link> <br/><br/> 
+        <label> Contraseña: </label>
+        <input placeholder={"clave"} type="password" value={clave} onChange={handleClaveChange} required />  <br/><br/> 
       </>
       ))}
 			<ButtonSubmit text="Modificar datos" />
