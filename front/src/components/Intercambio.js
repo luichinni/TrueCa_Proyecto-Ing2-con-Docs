@@ -229,14 +229,14 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
                 <select id="motivo" onChange={handleMotivo} required> 
                   <option value="">Seleccione el motivo de rechazo</option>
                   <option value="fecha y hora no convenientes">La fecha y hora no son convenientes</option>
-                  <option value="el producto no es de interes">El producto no es de Interes</option>
+                  <option value="el producto no es de interes">El producto no es de mi interes</option>
                 </ select>
                 <button className="detalle-button">Rechazar </button>
                 </form>
               }
 
               {console.log(`Entro a condición de confirmar: ${userPubli} y ${userOferto}`)}
-              {((userPubli == username && ofertaAcepta == false) || (userOferto == username && ofertadaAcepta == false)) ? (
+              {((((userPubli == username && ofertaAcepta == false) || (userOferto == username && ofertadaAcepta == false)) && (estado !== 'aceptado'))) ? (
                 <>
                   {console.log("Entro a condición de confirmar")}
                   <button className="detalle-button" onClick={handleAceptadoClick}>
