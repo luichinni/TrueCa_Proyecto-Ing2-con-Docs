@@ -36,7 +36,7 @@ const Centro = (props) => {
                                     <button className="botonEstado botonEditar"> <MdEdit className="editar" size={20}/>  </button>
                                 </Link>
 
-                                <Link to={"/deleteCentro/" + props.Id} className="botonEliminar"> 
+                                <Link to={"/DeleteCentro/" + props.Id} className="botonEliminar"> 
                                     <CiTrash size={22} className='botonCampanita' />
                                 </Link>
                                 <br />

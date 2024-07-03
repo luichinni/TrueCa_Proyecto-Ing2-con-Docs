@@ -77,7 +77,7 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
         const url3 = `http://localhost:8000/public/debePuntuar?intercambio=${id}&username=${username}`;
         const response3 = await axios.get(url3);
         
-        if (response3.data.puntuacionHecha) {
+        if (response3.data.puntuacionHecha == 'true') {
           setPuntuacionHecha(true);
         } else {
           setPuntuacionHecha(false);
@@ -111,6 +111,7 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
       formData.append('id', id);
       formData.append('setestado', 'rechazado');
       formData.append('setmotivo', motivo);
+      console.log(`elimino el intercambio`)
       const respon = await axios.put(`http://localhost:8000/public/updateIntercambio`, formData, {
         headers: {
           "Content-Type": "application/json",
@@ -157,7 +158,7 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
   const PuntuarUsuario = () => {
     let pOferta = publi1[0].id;
     let pOfertada = publi2[0].id;
-    navigate(`../PuntuarUsuario/${pOferta}/${pOfertada}`);
+    navigate(`../PuntuarUsuario/${pOferta}/${pOfertada}/${id}`);
   }
 
   const desplegarMotivos = (e) =>{
@@ -235,10 +236,10 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
                 </form>
               }
 
-              {console.log(`Entro a condición de confirmar: ${userPubli} y ${userOferto}`)}
+    
               {((((userPubli == username && ofertaAcepta == false) || (userOferto == username && ofertadaAcepta == false)) && (estado !== 'aceptado'))) ? (
                 <>
-                  {console.log("Entro a condición de confirmar")}
+                
                   <button className="detalle-button" onClick={handleAceptadoClick}>
                     Confirmar
                   </button>

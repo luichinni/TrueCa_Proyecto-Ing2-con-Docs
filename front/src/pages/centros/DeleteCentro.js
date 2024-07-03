@@ -13,8 +13,7 @@ const DeleteCentro = () => {
         if (window.confirm('¿Seguro que querés eliminar el centro?')) {
           await axios.delete(`http://localhost:8000/public/deleteCentro?id=${id}`);
           alert(`Centro eliminado`);
-          navigate(`../Centros`);
-          window.location.reload()  
+          navigate(`../Centros`); 
         } else {
           navigate(`../Centros`);
         }

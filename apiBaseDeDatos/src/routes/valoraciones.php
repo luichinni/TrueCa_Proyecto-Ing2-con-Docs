@@ -110,7 +110,7 @@ $app->group('/public', function (RouteCollectorProxy $group) {
         return $res->withStatus(200)->withHeader('Content-Type', 'application/json');
     });
 
-    $group->get('debePuntuar',function (Request $req, Response $res){
+    $group->get('/debePuntuar',function (Request $req, Response $res){
         // `http://localhost:8000/public/debePuntuar?intercambio=${id}&username=${username}`
         $queryParams = $req->getQueryParams();
 
