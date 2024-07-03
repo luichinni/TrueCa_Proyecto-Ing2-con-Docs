@@ -79,7 +79,7 @@ $app->group('/public', function (RouteCollectorProxy $group) use ($pdo,$camposUs
 
         $centroVolunDB->insert(['centro'=>$bodyParams['centro'],'voluntario'=>$bodyParams['username']]);
 
-        global $intercambioHandler;
+        global $intercambioHandler, $notificacionHandler;
 
         $intercambioHandler->cancelar(['user'=>$bodyParams['username']], 'Se te ha asignado rol de voluntario');
 
@@ -90,7 +90,7 @@ $app->group('/public', function (RouteCollectorProxy $group) use ($pdo,$camposUs
         if ($pudo){
             $status = 200;
             $centro = (array) ((array)$centroDB->getFirst(['id'=>$bodyParams['centro']]))[0];
-            enviarNotificacion($bodyParams['username'],"Eres voluntario!","Has sido registrado como un voluntario del centro \"" . $centro['nombre']."\"");
+            $notificacionHandler->enviarNotificacion($bodyParams['username'],"Eres voluntario!","Has sido registrado como un voluntario del centro \"" . $centro['nombre']."\"");
         }
 
         $msgReturn['Mensaje'] = $status == 200 ? 'Voluntario agregado con éxito' : 'Ocurrio un error al agregar el voluntario';
@@ -130,7 +130,7 @@ $app->group('/public', function (RouteCollectorProxy $group) use ($pdo,$camposUs
             $centroVolunDB->delete(['voluntario' => $bodyParams['username']]);
         }
 
-        global $intercambioHandler;
+        global $intercambioHandler, $notificacionHandler;
 
         $intercambioHandler->cancelar(['user' => $bodyParams['username']], 'Se te ha asignado rol de administrador');
 
@@ -140,7 +140,7 @@ $app->group('/public', function (RouteCollectorProxy $group) use ($pdo,$camposUs
 
         if ($pudo) {
             $status = 200;
-            enviarNotificacion($bodyParams['username'],'Eres administrador!', "Has sido registrado como un administrador del sistema");
+            $notificacionHandler->enviarNotificacion($bodyParams['username'],'Eres administrador!', "Has sido registrado como un administrador del sistema");
 
             $user = (array)((array)$userDB->getFirst(['username' => $bodyParams['username']]))[0];
             if ($user['notificacion']){

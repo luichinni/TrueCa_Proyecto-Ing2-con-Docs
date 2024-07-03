@@ -4,7 +4,7 @@ require_once __DIR__ . '/../utilities/bdController.php';
 
 class ComentariosHandler extends BaseHandler{
 
-    function __construct(bdController $db, protected PublicacionesHandler $publiHandler, protected UsuariosHandler $userHandler)
+    function __construct(bdController $db, protected PublicacionesHandler $publiHandler, protected UsuariosHandler $userHandler, protected NotificacionesHandler $notiHandler)
     {
         parent::__construct($db);
     }
@@ -15,7 +15,7 @@ class ComentariosHandler extends BaseHandler{
 
         if (!$pudo) return $pudo;
 
-        enviarNotificacion($this->publiHandler->getDueño($datos['publicacion']),'Han comentado tu publicacion','Alguien ha comentado en una de tus publicaciones presiona para ver más detalles','');
+        $this->notiHandler->enviarNotificacion($this->publiHandler->getDueño($datos['publicacion']),'Han comentado tu publicacion','Alguien ha comentado en una de tus publicaciones presiona para ver más detalles','');
 
         return $pudo;
     }

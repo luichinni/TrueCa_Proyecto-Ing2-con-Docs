@@ -30,6 +30,11 @@ abstract class BaseHandler{
             $this->status = 200;
             $this->mensaje = $this->db->getTableName() . ' cargada con éxito';
             $pudo = true;
+            error_log('');
+            error_log('');
+            error_log('CREACION DE '.$this->db->getTableName());
+            error_log('');
+            error_log('');
         } catch (Exception $e) {
             $this->mensaje = 'Ocurrió un error al cargar ' . $this->db->getTableName();
         }

@@ -64,7 +64,7 @@ $centrosHandler->setIntercambiosHandler($intercambioHandler);
 $centrosHandler->setPublicacionesHandler($publicacionesHandler);
 $categoriasHandler->setPublicacionesHandler($publicacionesHandler);
 $intercambioHandler->setPublicacionesHandler($publicacionesHandler);
-$comentariosHandler = new ComentariosHandler($comentariosDB,$publicacionesHandler,$usuariosHandler);
+$comentariosHandler = new ComentariosHandler($comentariosDB,$publicacionesHandler,$usuariosHandler, $notificacionHandler);
 $valoracionesHandler = new ValoracionesHandler($valoracionesDB,$usuariosHandler);
 $estadisticador = new Estadisticas($intercambioHandler);
 

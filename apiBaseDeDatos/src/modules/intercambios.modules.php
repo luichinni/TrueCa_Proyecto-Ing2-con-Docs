@@ -52,11 +52,6 @@ class IntercambiosHandler extends BaseHandler{
         return $valido;
     }
 
-    public function actualizar(array $datos)
-    {
-        $pudo = parent::actualizar($datos);
-    }
-
     // cancelar
     public function cancelar(array $datos, string $motivo){
         $datos['setestado'] = 'cancelado';
@@ -92,7 +87,7 @@ class IntercambiosHandler extends BaseHandler{
         $datos['setmotivo'] = $motivo;
 
         if ($motivo != '' && $this->actualizar($datos)) {
-            $intercambio = (array)$this->listar($datos)[0];
+            $intercambio = (array)((array)$this->listar($datos))[0];
             $publiOferta = (array)$this->publiHandler->listar(['id' => $intercambio['publicacionOferta']])[0];
             $publiOfertada = (array)$this->publiHandler->listar(['id' => $intercambio['publicacionOfertada']])[0];
             $this->notificacionesHandler->enviarNotificacion($publiOferta['user'], 'Intercambio rechazado!', 'Se rechazó el intercambio de ' . $publiOferta['nombre'] . ' por ' . $publiOfertada['nombre'] . ', motivo: ' . $motivo, '');
@@ -107,7 +102,7 @@ class IntercambiosHandler extends BaseHandler{
     public function aceptar(array $datos){
         $datos['setestado'] = 'aceptado';
         $this->actualizar($datos);
-        $intercambio = (array)$this->listar($datos)[0];
+        $intercambio = (array)$this->listar(['id'=>$datos['id']])[0];
         $publiOferta = (array)$this->publiHandler->listar(['id' => $intercambio['publicacionOferta']])[0];
         $publiOfertada = (array)$this->publiHandler->listar(['id' => $intercambio['publicacionOfertada']])[0];
         $this->publiHandler->bajaPorIntercambio($publiOferta['id']);
@@ -115,6 +110,7 @@ class IntercambiosHandler extends BaseHandler{
         $this->notificacionesHandler->enviarNotificacion($publiOferta['user'], 'Intercambio aceptado!', 'Se aceptó el intercambio de ' . $publiOferta['nombre'] . ' por ' . $publiOfertada['nombre'], '');
         $this->notificacionesHandler->enviarNotificacion($publiOfertada['user'], 'Intercambio aceptado!', 'Se aceptó el intercambio de ' . $publiOferta['nombre'] . ' por ' . $publiOfertada['nombre'], '');
         $this->mensaje = "Aceptado con éxito";
+        $this->status = 200;
     }
     // validar
     public function validar(array $datos){
@@ -129,9 +125,7 @@ class IntercambiosHandler extends BaseHandler{
     }
 
     public function listar(array $datos, bool $like = false, bool $centro_id = false)
-    {
-        error_log(json_encode($datos) . ' like: '.json_encode($like));
-        
+    {        
         $whereArr = [];
 
         if (array_key_exists('estado',$datos)) $whereArr['estado'] = $datos['estado'];

@@ -9,7 +9,7 @@ class NotificacionesHandler extends BaseHandler{
     }
 
     public function enviarNotificacion(string $user,string $titulo,string $contenido,string $url = ""){
-        if ($this->userHandler->notificacion($user) == true) $this->mailer->send($this->userHandler->mail($user), $titulo, $contenido, true);
+        if ($this->userHandler->notificacion($user)) $this->mailer->send($this->userHandler->mail($user), $titulo, $contenido, true);
         error_log('Nueva notificacion: '.json_encode(['user' => $user, 'texto' => $contenido, 'url' => $url]));
         return $this->crear(['user'=>$user,'texto'=>$contenido,'url'=>$url]);
     }
@@ -23,7 +23,7 @@ class NotificacionesHandler extends BaseHandler{
         $notificaciones = parent::listar($datos,$like);
 
         foreach($notificaciones as $pos=>$info){
-            verNotificacion($info['id']);
+            $this->verNotificacion($info['id']);
         }
 
         return $notificaciones;
