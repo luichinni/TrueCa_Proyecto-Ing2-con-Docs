@@ -106,7 +106,7 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
             />
         )
         }
-        {(usuario === username)&&
+        {(user === username)&&
           <button onClick={handleEditar} className='botonCampanita'> <MdEdit size={26} className='botonCampanita' /> </button>
         }
         {EDITAR && (
