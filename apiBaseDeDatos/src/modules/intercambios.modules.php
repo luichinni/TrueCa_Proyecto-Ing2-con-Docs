@@ -116,15 +116,24 @@ class IntercambiosHandler extends BaseHandler{
     }
     // aceptar
     public function aceptar(array $datos){
-        $datos['setestado'] = 'aceptado';
         $this->actualizar($datos);
-        $intercambio = (array)$this->listar(['id'=>$datos['id']])[0];
+        error_log('INTERCAMBIO: '.$datos['id']);
+
+        $intercambio = (array)((array)$this->listar(['id'=>$datos['id']]))[0];
+        error_log(json_encode($intercambio));
+
         $publiOferta = (array)$this->publiHandler->listar(['id' => $intercambio['publicacionOferta']])[0];
+        error_log(json_encode($publiOferta));
+
         $publiOfertada = (array)$this->publiHandler->listar(['id' => $intercambio['publicacionOfertada']])[0];
+        error_log(json_encode($publiOfertada));
+
         $this->publiHandler->bajaPorIntercambio($publiOferta['id']);
         $this->publiHandler->bajaPorIntercambio($publiOfertada['id']);
+
         $this->notificacionesHandler->enviarNotificacion($publiOferta['user'], 'Intercambio aceptado!', 'Se aceptó el intercambio de ' . $publiOferta['nombre'] . ' por ' . $publiOfertada['nombre'], '');
         $this->notificacionesHandler->enviarNotificacion($publiOfertada['user'], 'Intercambio aceptado!', 'Se aceptó el intercambio de ' . $publiOferta['nombre'] . ' por ' . $publiOfertada['nombre'], '');
+        
         $this->mensaje = "Aceptado con éxito";
         $this->status = 200;
     }
@@ -144,6 +153,7 @@ class IntercambiosHandler extends BaseHandler{
     {        
         $whereArr = [];
 
+        if (array_key_exists('id',$datos)) $whereArr['id'] = $datos['id'];
         if (array_key_exists('estado',$datos)) $whereArr['estado'] = $datos['estado'];
         if (array_key_exists('centro', $datos)) $whereArr['centro'] = $datos['centro'];
         if (array_key_exists('donacion', $datos)) $whereArr['donacion'] = $datos['donacion'];
