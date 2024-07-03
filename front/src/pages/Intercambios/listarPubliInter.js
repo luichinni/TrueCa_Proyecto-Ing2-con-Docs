@@ -30,11 +30,12 @@ const ListarPubliInter = () => {
             user: username,
             categoria_id: categoria,
             id: parametros.id,
-            habilitado: 0
+            habilitado: 1,
+            estado:'alta'
         }).toString();
         const url = `http://localhost:8000/public/listarPublicaciones?${queryParams}&token=${localStorage.getItem('token')}`;
         const response = await axios.get(url);
-
+        console.log(procesar(response.data));
         if (response.data.length === 3) {
           setError('No tenes publicaciones de la misma categoría.');
           console.log('disponibles')

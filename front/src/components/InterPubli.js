@@ -11,7 +11,7 @@ const InterPubli = (props) => {
     return (
         <fieldset className="publicacion">
             <div className="publicacion-img">
-                <img className="img" src={props.imagen} alt="imagen no encontrada" />
+                <img className="img" src={props.imagenes[0].archivo} alt="imagen no encontrada" />
             </div>
             <div className="publicacion-info">
                 <p className="nombre">{props.nombre}</p>
