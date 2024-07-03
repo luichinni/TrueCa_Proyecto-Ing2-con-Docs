@@ -15,8 +15,8 @@ const FiltroEstadistica = ({ onFiltroSubmit }) => {
   });
 
   const handleDateChange = (dateRange) => {
-    const formattedDesde = dateRange[0] ? format(dateRange[0], 'yyyy-MM-dd') : '';
-    const formattedHasta = dateRange[1] ? format(dateRange[1], 'yyyy-MM-dd') : '';
+    const formattedDesde = dateRange[0] ? format(dateRange[0], 'yyyy-MM-dd 00:00:00') : '';
+    const formattedHasta = dateRange[1] ? format(dateRange[1], 'yyyy-MM-dd 23:59:59') : '';
     setFiltro({
       ...filtro,
       desde: formattedDesde,
