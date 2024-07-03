@@ -5,10 +5,16 @@ import { CiTrash } from 'react-icons/ci';
 import axios from "axios"
 import { MdEdit } from "react-icons/md";
 import ResponderComentario from './ResponderComentario';
+import EditarComentario from '../pages/Comentarios/EditarComentario';
+import EditarRespuesta from '../pages/Comentarios/EditarRespuesta';
+import DeleteRespuesta from '../pages/Comentarios/DeleteRespuesta';
 
 const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion }) => {
 
   const [ELIMINAR,setEliminar] = useState(false);
+  const [EDITAR,setEditar] = useState(false);
+  const [ELIMINARRES,setEliminarRes] = useState(false);
+  const [EDITARRES,setEditarRes] = useState(false);
   const [error, setError] = useState('');
   const Token = localStorage.getItem('token')
   const username = localStorage.getItem('username');
@@ -19,6 +25,20 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
   function handleBorrar(){
     console.log(id + ' ' + localStorage.getItem('username'))
     setEliminar(true);
+  }
+
+  function handleEditar(){
+    console.log(id + ' ' + localStorage.getItem('username'))
+    setEditar(true);
+  }
+  function handleBorrarRes(){
+    console.log(id + ' ' + localStorage.getItem('username'))
+    setEliminarRes(true);
+  }
+
+  function handleEditarRes(){
+    console.log(id + ' ' + localStorage.getItem('username'))
+    setEditarRes(true);
   }
 
   useEffect(() => {
@@ -48,6 +68,7 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
 
   useEffect(()=>{
     if (ELIMINAR == true) setEliminar(false);
+    if (EDITAR == true) setEditar(false);
   },[ELIMINAR])
 
   function procesar(publicaciones) {
@@ -94,20 +115,31 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
             />
         )
         }
+        {(usuario === username)&&
+          <button onClick={handleEditar} className='botonCampanita'> <MdEdit size={26} className='botonCampanita' /> </button>
+        }
+        {EDITAR && (
+          <EditarComentario
+            id={id}
+            userMod={localStorage.getItem('username')}
+          />
+        )}
         {respuesta &&(
           <fieldset className="respuesta-info">
             <legend className='titRespuesta'>Respuesta:</legend>
             <h2 className="user">{usuario}</h2>
             <h3 className="texto">{respuesta}</h3>
-          </fieldset>
-        )}
-        { /*(user === username)&&(
-          <ModificarComentario
+        {(usuario === username)&&
+          <button onClick={handleEditarRes} className='botonCampanita'> <MdEdit size={26} className='botonCampanita' /> </button>
+        }
+        {EDITARRES && (
+          <EditarRespuesta
             id={id}
             userMod={localStorage.getItem('username')}
           />
-        )
-         */ }
+        )}
+          </fieldset>
+        )}
       </div>
     </div>
   ); 

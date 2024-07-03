@@ -1,60 +1,70 @@
-/*import { ButtonSubmit } from "../../components/ButtonSubmit";
+import { ButtonSubmit } from "../../components/ButtonSubmit";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const EditarComentario = () => {
+const EditarComentario = ({id}) => {
     const [texto, setTexto] = useState('');
     const [huboCambio, setHuboCambio] = useState(false)
     const [myError, setMyError] = useState(false);
     const [msgError, setMsgError] = useState('No deberías estar viendo este mensaje');
 
+
     const handleTextoChange = (e) => {setTexto(e.target.value); setHuboCambio(true);}
 
     useEffect(() => {
-      const fetchData = async () => {
-          const url = `http://localhost:8000/public/updateComentario?${id}`;
-          const response = await axios.put(url);
-  
-          if (response.data.length === 0) {
-            setUsuarios([]); 
-          } else {
-            const comentarioData = procesar(response.data)[0]; // Solo toma el primer comentario
-            setComentario([comentarioData]);
-            setTexto(comentarioData.texto);
+        const fetchData = async () => {
+          try {
+            const url = `http://localhost:8000/public/listarComentarios?id=${id}`;
+            const response = await axios.get(url);
+    
+            if (response.data.length === 0) {
+              setTexto(''); 
+            } else {
+              const comentarioData = procesar(response.data)[0]; // Solo toma el primer usuario
+              setTexto(comentarioData.texto);
+            }
+          } catch  (error) {
+            console.error(error);
           }
-      };
-  
-      fetchData();
-    }, []);
+        };
+    
+        fetchData();
+      }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-		console.log('Submit button clicked!');
-		const formData = new FormData();
-		(texto)&&formData.append('settexto', texto);
-		try {
-			setMyError(false);
-            if (huboCambio === true) {
-                if (window.confirm('¿Seguro que deseas modificar la pregunta?')) {
+    const handleSubmit = () => {
+        const fetchData = async () => {
+          
+            const formData = new FormData();
+            formData.append('id', id);
+            (texto)&&(formData.append('settexto', texto));
+    
+            try {
+                console.log(`texto: ${formData.get('settexto')}`)
+                setMyError(false);
+                if (huboCambio === true) {
+                    if (window.confirm('¿Seguro que deseas modificar los datos?')) {
                     const response = await axios.put("http://localhost:8000/public/updateComentario", formData,
-                    {
-                     headers: {
+                        {
+                        headers: {
                             "Content-Type": "application/json",
                         },
-                    });
+                        });
                     console.log('Success:', response);
                     window.location.reload();
-                }
-            } else {
+                    }
+                } else {
                 alert('No se realizo ningun cambio')
                 window.location.reload();
+                }
+            } catch (error) {
+                console.log('entre por error')
+                console.error('Error:', error.response.data.Mensaje);
+                setMyError(true);
+                setMsgError(error.response.data.Mensaje);
             }
-		} catch (error) {
-            console.log('entre por error')
-			console.error('Error:', error.response.data.Mensaje);
-			setMyError(true);
-			setMsgError(error.response.data.Mensaje);
-		}
+          };
+      
+          fetchData();
     };
 
     function procesar(comentarios) {
@@ -73,9 +83,7 @@ const EditarComentario = () => {
             <br/> <br />
             <form onSubmit={handleSubmit}>
                 <h3> Modifica tu comentario! </h3>  <br /> <br />
-                {comentarios.map(comentario => (
-                    <textarea value={texto} onChange={handleTextoChange} maxLength="255" placeholder={comentario.texto} required></textarea>       
-                ))}
+                    <textarea value={texto} onChange={handleTextoChange} maxLength="255" placeholder={texto} required></textarea>       
                 <ButtonSubmit text="Modificar pregunta" />
             </form>
             {myError &&
@@ -86,4 +94,3 @@ const EditarComentario = () => {
 };
 
 export default EditarComentario;
-*/
