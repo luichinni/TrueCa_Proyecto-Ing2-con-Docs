@@ -90,7 +90,7 @@ const Comentario = ({ id, publicacion, user, texto, respuesta,fecha_publicacion 
         {ELIMINAR && (
           <DeleteComentario 
             id={id} 
-            userMod={localStorage.getItem('username')} 
+            userMod={user}
             />
         )
         }
