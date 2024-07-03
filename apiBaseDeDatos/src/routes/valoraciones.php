@@ -97,9 +97,9 @@ $app->group('/public', function (RouteCollectorProxy $group) {
         foreach ($retorno as $dato) $retorno['total'] += $dato;
 
         $queryParams['donacion'] = 1;
-        $retorno['concretado con donacion'] = $estadisticador->totalDe('', $queryParams, 'concretado', $desde, $hasta);
-        $retorno['cancelado con donacion'] = $estadisticador->totalDe('', $queryParams, 'cancelado', $desde, $hasta);
-        $retorno['rechazado con donacion'] = $estadisticador->totalDe('', $queryParams, 'rechazado', $desde, $hasta);
+        $retorno['concretadoConDonacion'] = $estadisticador->totalDe('', $queryParams, 'concretado', $desde, $hasta);
+        $retorno['canceladoConDonacion'] = $estadisticador->totalDe('', $queryParams, 'cancelado', $desde, $hasta);
+        $retorno['rechazadoConDonacion'] = $estadisticador->totalDe('', $queryParams, 'rechazado', $desde, $hasta);
 
         $retorno['Mensaje'] = 'Estadisticas calculadas con éxito';
 

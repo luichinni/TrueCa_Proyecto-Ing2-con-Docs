@@ -3,6 +3,20 @@ import FiltroEstadistica from '../../components/FiltroEstadistica';
 import '../../HarryStyles/estadisticas.css';
 import { useEffect, useState } from 'react';
 
+/*"ausenciaAmbasPartes": 0,
+    "ausenciaAnunciante": 1,
+    "ausenciaOfertante": 0,
+    "productoAnunciadoNoEsLoEsperado": 0,
+    "productoOfertadoNoEsLoEsperado": 0,
+    "elProductoNoEsDeInteres": 0,
+    "fechaYHoraNoConvenientes": 0,
+    "seEligióUnaOfertaSuperadora": 0,
+    "concretado": 3,
+    "total": 4,
+    "concretado con donacion": 3,
+    "cancelado con donacion": 1,
+    "rechazado con donacion": 0,*/
+
 const IntercambiosEstats = () => {
   const [intercambios, setIntercambios] = useState({});
   const [error, setError] = useState('');
@@ -29,10 +43,11 @@ const IntercambiosEstats = () => {
           centro: parametros.centro,
         }).toString();
         const url = `http://localhost:8000/public/estadisticas?${queryParams}&token=${localStorage.getItem('token')}`;
+        console.log(`url de estadisticas: ${url}`)
         const response = await axios.get(url);
 
         if (response.data.Mensaje === 'No hay intercambios disponibles') {
-          setError(`¡No has realizado intercambios todavía! \n Ve a explorar para poder intercambiar`);
+          setError(`¡No funcionan las estadisticas!`);
           setIntercambios({});
         } else {
           let intercambiosList = response.data;
@@ -40,8 +55,10 @@ const IntercambiosEstats = () => {
           console.log(intercambiosList);
         }
       } catch (error) {
-        setError(`¡No has realizado intercambios todavía! \n Ve a explorar para poder intercambiar`);
+        setError(`¡No funcionan las estadisticas`);
         console.error(error);
+      } finally {
+        setLoading(false)
       }
     };
 
@@ -53,7 +70,7 @@ const IntercambiosEstats = () => {
   };
 
   const totalIntercambios = intercambios.total || 0;
-
+  const 
   const estadisticas = [
     { label: "Ausencia Ambas Partes", value: intercambios.ausenciaAmbasPartes || 0 },
     { label: "Ausencia Anunciante", value: intercambios.ausenciaAnunciante || 0 },
@@ -72,7 +89,7 @@ const IntercambiosEstats = () => {
       <div className='sidebarest'>
         <FiltroEstadistica onFiltroSubmit={handleParametrosChange} />
       </div>
-      <div>
+      <div className='publi-container'>
         {loading ? (
           <h1 className='cargando'>Cargando...</h1>
         ) : error ? (

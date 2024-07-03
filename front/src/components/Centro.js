@@ -18,7 +18,7 @@ const Centro = (props) => {
                         <p className="nombre">
                             centro {props.Id}:  {props.nombre}
                             <button onClick={handleToggle} className="toggle-button">
-                                {isExpanded ? "ocultar Detalles" : "Mostrar Detalles" }
+                                {isExpanded ? "Ocultar Detalles" : "Mostrar Detalles" }
                             </button>
                         </p>
                         {isExpanded && (

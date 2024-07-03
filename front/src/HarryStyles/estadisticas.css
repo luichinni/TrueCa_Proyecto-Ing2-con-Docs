@@ -2,12 +2,16 @@
 .contentest{
     display: flex;
     padding-top: 5%;
+    overflow-y: auto;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+    z-index: 1;
 }
 
 .sidebarest {
     padding-top: 50%;
     width: 25%;
-    padding: 0px;
+    padding: 5px;
     background-color: #ffffff;
     border-right: 5px solid #ddd;
     z-index: 1;
