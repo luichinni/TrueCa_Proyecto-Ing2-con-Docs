@@ -3,25 +3,13 @@ import FiltroEstadistica from '../../components/FiltroEstadistica';
 import '../../HarryStyles/estadisticas.css';
 import { useEffect, useState } from 'react';
 
-/*"ausenciaAmbasPartes": 0,
-    "ausenciaAnunciante": 1,
-    "ausenciaOfertante": 0,
-    "productoAnunciadoNoEsLoEsperado": 0,
-    "productoOfertadoNoEsLoEsperado": 0,
-    "elProductoNoEsDeInteres": 0,
-    "fechaYHoraNoConvenientes": 0,
-    "seEligióUnaOfertaSuperadora": 0,
-    "concretado": 3,
-    "total": 4,
-    "concretado con donacion": 3,
-    "cancelado con donacion": 1,
-    "rechazado con donacion": 0,*/
-
 const IntercambiosEstats = () => {
   const [intercambios, setIntercambios] = useState({});
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [MostrarFormulario, setMostrarFormulario] = useState(false);
   const username = localStorage.getItem('username');
+  const detallesDiv = useState(false)
   const token = localStorage.getItem('token');
   const [parametros, setParametros] = useState({
     desde: "",
@@ -71,26 +59,54 @@ const IntercambiosEstats = () => {
 
   const totalIntercambios = intercambios.total || 0;
   const donaciones = [
-    { label: "concretados", value: intercambios.concretadoConDonacion || 0 },
-    { label: "cancelado", value: intercambios.canceladoConDonacion || 0 },
-    { label: "rechazado", value: intercambios.rechazadoConDonacion || 0 },
-    { label: "total", value: (intercambios.rechazadoConDonacion + intercambios.canceladoConDonacion + intercambios.concretadoConDonacion)}
-  ]
+    { label: "Concretados con Donación", value: intercambios.concretadoConDonacion || 0 },
+    { label: "Cancelado con Donación", value: intercambios.canceladoConDonacion || 0 },
+    { label: "Rechazado con Donación", value: intercambios.rechazadoConDonacion || 0 },
+  ];
   const cancelados = [
     { label: "Ausencia Ambas Partes", value: intercambios.ausenciaAmbasPartes || 0 },
     { label: "Ausencia Anunciante", value: intercambios.ausenciaAnunciante || 0 },
     { label: "Ausencia Ofertante", value: intercambios.ausenciaOfertante || 0 },
-    { label: "total", value: (intercambios.rechazadoConDonacion + intercambios.canceladoConDonacion + intercambios.concretadoConDonacion)}
-  ]
-  const estadisticas = [
+  ];
+  const rechazados = [
     { label: "Producto Anunciado No Es Lo Esperado", value: intercambios.productoAnunciadoNoEsLoEsperado || 0 },
     { label: "Producto Ofertado No Es Lo Esperado", value: intercambios.productoOfertadoNoEsLoEsperado || 0 },
-    { label: "El Producto No Es De Interes", value: intercambios.elProductoNoEsDeInteres || 0 },
+    { label: "El Producto No Es De Interés", value: intercambios.elProductoNoEsDeInteres || 0 },
     { label: "Fecha Y Hora No Convenientes", value: intercambios.fechaYHoraNoConvenientes || 0 },
     { label: "Se Eligió Una Oferta Superadora", value: intercambios.seEligióUnaOfertaSuperadora || 0 },
-    { label: "Concretado", value: intercambios.concretado || 0 },
-    { label: "Concretado con Donación", value: intercambios["concretado con donacion"] || 0 }
   ];
+  const concretados = [
+    { label: "Concretado", value: intercambios.concretado || 0 },
+  ];
+
+  const calcularPorcentajeTotal = (valor) => {
+    return totalIntercambios > 0 ? ((valor / totalIntercambios) * 100).toFixed(2) : 0;
+  };
+
+  const calcularPorcentajeGrupo = (valor, grupoTotal) => {
+    return grupoTotal > 0 ? ((valor / grupoTotal) * 100).toFixed(2) : 0;
+  };
+
+  const renderGrupo = (titulo, datos) => {
+    const grupoTotal = datos.reduce((sum, item) => sum + item.value, 0);
+    return (
+      <div className='cuadro'>
+        <h2>{titulo}</h2>
+        <h3>Total</h3>
+        <p className='numero'>{grupoTotal}</p>
+        <div className='detalles'>
+          {datos.map((item, index) => (
+            <div key={index}>
+              <h3>{item.label}</h3>
+              <p className='numero'>{item.value}</p>
+              <p className='porcentaje porcentaje-total'>Total de intercambios: {calcularPorcentajeTotal(item.value)}%</p>
+              <p className='porcentaje porcentaje-grupo'>Total por Estado: {calcularPorcentajeGrupo(item.value, grupoTotal)}%</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className='contentest'>
@@ -109,30 +125,51 @@ const IntercambiosEstats = () => {
           <>
             <br /><br /><br /><br />
             <div className='estadisticas-container'>
-              <h2>Total de Intercambios <br/>{totalIntercambios}</h2>
-              <ul>
-              <div className='donaciones'>
-                <h2>Donaciones</h2>
-                {donaciones.map((item, index) => (
-                  <li key={index}>
-                    {item.label}: {item.value} ({((item.value / totalIntercambios) * 100).toFixed(2)}%)
-                  </li>
-                ))}
+              <div className='cuadros-superiores'>
+                <div className='cuadro'>
+                  <h2>Total de Intercambios</h2>
+                  <h3>Total</h3>
+                  <p className='numero'>{totalIntercambios}</p>
+                  <div className='grid-datos'>
+                    <div  className='grid-datos-interior'>
+                      <h4>Cancelados</h4>
+                      <p className='numero'>{cancelados.reduce((sum, item) => sum + item.value, 0)}</p>
+                    </div>
+                    <div className='grid-datos-interior'>
+                      <h4>Rechazados</h4>
+                      <p className='numero'>{rechazados.reduce((sum, item) => sum + item.value, 0)}</p>
+                    </div>
+                    <div className='grid-datos-interior'>
+                      <h4>Concretados</h4>
+                      <p className='numero'>{concretados.reduce((sum, item) => sum + item.value, 0)}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className='cuadro'>
+                  <h2>Total de Donaciones</h2>
+                  <h3>Total</h3>
+                  <p className='numero'>{donaciones.reduce((sum, item) => sum + item.value, 0)}</p>
+                  <div className='grid-datos'>
+                    <div className='grid-datos-interior'>
+                      <h4>Concretados con Donación</h4>
+                      <p className='numero'>{donaciones[0].value}</p>
+                    </div>
+                    <div className='grid-datos-interior'>
+                      <h4>Cancelado con Donación</h4>
+                      <p className='numero'>{donaciones[1].value}</p>
+                    </div>
+                    <div className='grid-datos-interior'>
+                      <h4>Rechazado con Donación</h4>
+                      <p className='numero'>{donaciones[2].value}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className='donaciones'>
-                <h2>Cancelados</h2>
-                {estadisticas.map((item, index) => (
-                  <li key={index}>
-                    {item.label}: {item.value} ({((item.value / totalIntercambios) * 100).toFixed(2)}%)
-                  </li>
-                ))}
+              <div className='estadisticas-cuadros'>
+                {renderGrupo('Cancelados', cancelados)}
+                {renderGrupo('Rechazados', rechazados)}
+                {renderGrupo('Concretados', concretados)}
               </div>
-                {estadisticas.map((item, index) => (
-                  <li key={index}>
-                    {item.label}: {item.value} ({((item.value / totalIntercambios) * 100).toFixed(2)}%)
-                  </li>
-                ))}
-              </ul>
             </div>
           </>
         )}
@@ -142,6 +179,10 @@ const IntercambiosEstats = () => {
 }
 
 export default IntercambiosEstats;
+
+
+
+
 
 /*import axios from 'axios';
 import FiltroEstadistica from '../../components/FiltroEstadistica';

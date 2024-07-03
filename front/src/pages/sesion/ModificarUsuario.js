@@ -116,16 +116,16 @@ const ModificarUsuario = () => {
       {usuarios.map(usuario => (
       <>
         <label> Nombre: </label>
-        <input placeholder={"nombre"} type="text" value={nombre} onChange={handleNombreChange} /> <br/><br/>  
+        <input placeholder={"nombre"} type="text" value={nombre} onChange={handleNombreChange} required/> <br/><br/>  
 
         <label> Apellido: </label>
-        <input placeholder={"apellido"} type="text" value={apellido} onChange={handleApellidoChange} />  <br/><br/>  
+        <input placeholder={"apellido"} type="text" value={apellido} onChange={handleApellidoChange} required/>  <br/><br/>  
 
         <label> DNI: </label>
-        <input placeholder={"documento"} type="text" value={numeroDocumento} onChange={handleNumeroDocumentoChange} />  <br/><br/>  
+        <input placeholder={"documento"} type="text" value={numeroDocumento} onChange={handleNumeroDocumentoChange} required/>  <br/><br/>  
 
         <label> Mail: </label>
-        <input placeholder={"mail"} type="text"  value={mail} onChange={handleMailChange} /> <br/> <br/> 
+        <input placeholder={"mail"} type="text"  value={mail} onChange={handleMailChange} required/> <br/> <br/> 
         
         <label> Telefono: </label>
         <input placeholder={"telefono"} type="text" value={telefono} onChange={handleTelefonoChange} />  <br/><br/> 
