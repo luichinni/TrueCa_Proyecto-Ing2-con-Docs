@@ -20,10 +20,10 @@ abstract class BaseHandler{
         return $this->db->exists($datos);
     }
 
-    public function crear(array $datos){
+    public function crear(array $datos,bool $todos=true){
         $pudo = false;
         $this->status = 500;
-        if (!$this->validarDatos($datos, true)) return false;
+        if (!$this->validarDatos($datos, $todos)) return false;
         try {
             $this->db->insert($datos);
             $this->lastId = $this->db->lastId;

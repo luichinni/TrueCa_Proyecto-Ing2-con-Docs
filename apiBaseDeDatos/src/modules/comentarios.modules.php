@@ -9,7 +9,7 @@ class ComentariosHandler extends BaseHandler{
         parent::__construct($db);
     }
 
-    public function crear(array $datos)
+    public function crear(array $datos,bool $todos = true)
     {
         $pudo = parent::crear($datos);
 

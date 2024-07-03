@@ -88,9 +88,12 @@ class PublicacionesHandler extends BaseHandler{
     }
 
     public function bajaPorIntercambio(int|string $id){
-        $publi = (array)$this->listar(['id'=>$id])[0];
-        $this->intercambiosHandler->rechazar(['publicacionOferta' => $id, 'estado' => 'pendiente'], 'se eligió una oferta superadora');
-        $this->intercambiosHandler->rechazar(['publicacionOfertada' => $id, 'estado' => 'pendiente'], 'se eligió una oferta superadora');
+        foreach($this->intercambiosHandler->listar(['publicacionOferta'=>$id, 'estado'=>'pendiente']) as $pos => $inter){
+            $this->intercambiosHandler->rechazar(['publicacionOferta' => $id, 'estado' => 'pendiente','id'=>$inter['id']], 'se eligió una oferta superadora');
+        }
+        foreach ($this->intercambiosHandler->listar(['publicacionOfertada' => $id, 'estado' => 'pendiente']) as $pos => $inter) {
+            $this->intercambiosHandler->rechazar(['publicacionOfertada' => $id, 'estado' => 'pendiente', 'id' => $inter['id']], 'se eligió una oferta superadora');
+        }
     }
 
     public function alta(array $datos){
@@ -183,7 +186,7 @@ class PublicacionesHandler extends BaseHandler{
         return $publi['user'];
     }
 
-    public function crear(array $datos)
+    public function crear(array $datos,bool $todos = true)
     {
         if(parent::crear($datos)){
             foreach($datos as $clave => $valor){

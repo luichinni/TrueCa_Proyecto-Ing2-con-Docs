@@ -64,15 +64,31 @@ class IntercambiosHandler extends BaseHandler{
             $this->notificacionesHandler->enviarNotificacion($publiOferta['user'],'Intercambio cancelado!','Se canceló el intercambio de '.$publiOferta['nombre'].' por '.$publiOfertada['nombre'] . ', motivo: ' . $motivo,'');
             $this->notificacionesHandler->enviarNotificacion($publiOfertada['user'], 'Intercambio cancelado!', 'Se canceló el intercambio de ' . $publiOferta['nombre'] . ' por ' . $publiOfertada['nombre'] . ', motivo: ' . $motivo, '');
             $this->mensaje = "Cancelado con éxito";
-/*             if ($motivo == 'ausencia ambas partes'){
-                
-            } */
+            match ($motivo){
+                'ausencia anunciante' => function() use ($intercambio,$publiOferta){
+                    global $valoracionesHandler,$publicacionesHandler;
+                    $valoracionesHandler->crear([
+                        'intercambio'=>$intercambio['id'],
+                        'userValorado' => $publiOferta['user'],
+                        'puntos'=>0
+                    ],false);
+                },
+                'ausencia ofertante' => function() use ($publiOfertada,$intercambio){
+                    global $valoracionesHandler, $publicacionesHandler;
+                    $valoracionesHandler->crear([
+                        'intercambio' => $intercambio['id'],
+                        'userValorado' => $publiOfertada['user'],
+                        'puntos' => 0
+                    ], false);
+                },
+                default => error_log('No cumple con anunciante u ofertante')
+            };
         }else{
             $this->mensaje = "No se pudo cancelar el intercambio correctamente";
             $this->status = 500;
         }
     }
-    public function crear(array $datos)
+    public function crear(array $datos, bool $todos = true)
     {
         parent::crear($datos);
         $publiOferta = (array)$this->publiHandler->listar(['id' => $datos['publicacionOferta']])[0];
@@ -87,7 +103,7 @@ class IntercambiosHandler extends BaseHandler{
         $datos['setmotivo'] = $motivo;
 
         if ($motivo != '' && $this->actualizar($datos)) {
-            $intercambio = (array)((array)$this->listar($datos))[0];
+            $intercambio = (array)$this->listar(['id' => $datos['id']])[0];
             $publiOferta = (array)$this->publiHandler->listar(['id' => $intercambio['publicacionOferta']])[0];
             $publiOfertada = (array)$this->publiHandler->listar(['id' => $intercambio['publicacionOfertada']])[0];
             $this->notificacionesHandler->enviarNotificacion($publiOferta['user'], 'Intercambio rechazado!', 'Se rechazó el intercambio de ' . $publiOferta['nombre'] . ' por ' . $publiOfertada['nombre'] . ', motivo: ' . $motivo, '');
