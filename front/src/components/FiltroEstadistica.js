@@ -11,7 +11,6 @@ const FiltroEstadistica = ({ onFiltroSubmit }) => {
   const [filtro, setFiltro] = useState({
     desde: "",
     hasta: "",
-    estado: "",
     centro: ""
   });
 
@@ -36,6 +35,10 @@ const FiltroEstadistica = ({ onFiltroSubmit }) => {
   const handleCentrosChange = (e) => {
     const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
     setCentrosSeleccionados(selectedValues);
+    setFiltro({
+      ...filtro,
+      centro: selectedValues.join(',')
+    });
   };
 
   const handleSubmit = (e) => {
@@ -79,20 +82,6 @@ const FiltroEstadistica = ({ onFiltroSubmit }) => {
           />
         </div>
         <br/><br/>
-        <select
-          name="estado"
-          value={filtro.estado}
-          onChange={handleInputChange}
-          className="filtro-input"
-        >
-          <option value="">Seleccione un Estado</option>
-          <option value="pendiente">Pendiente</option>
-          <option value="cancelado">Cancelado</option>
-          <option value="rechazado">Rechazado</option>
-          <option value="aceptado">Aceptado</option>
-          <option value="concretado">Concretado</option>
-        </select>
-        <br/><br/>
         {localStorage.getItem('token') !== 'tokenVolunt' &&
           <select id="centro" className='filtro-input' onChange={handleCentrosChange}>
             <option value="">Seleccione un centro</option>
@@ -105,7 +94,7 @@ const FiltroEstadistica = ({ onFiltroSubmit }) => {
         }
         <br/><br/>
         <Link to="/Intercambios">
-          <button className="filtro-button" type="submit">Ver todos los intercambios</button>
+          <button className="filtro-button" type="button">Ver todos los intercambios</button>
         </Link>
         <br/><br/>
         <button className="filtro-button" type="submit">Filtrar</button>

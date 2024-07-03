@@ -14,7 +14,6 @@ const IntercambiosEstats = () => {
   const [parametros, setParametros] = useState({
     desde: "",
     hasta: "",
-    estado: "",
     centro: ""
   });
 
@@ -27,7 +26,6 @@ const IntercambiosEstats = () => {
         const queryParams = new URLSearchParams({
           desde: parametros.desde,
           hasta: parametros.hasta,
-          estado: parametros.estado,
           centro: parametros.centro,
         }).toString();
         const url = `http://localhost:8000/public/estadisticas?${queryParams}&token=${localStorage.getItem('token')}`;
@@ -151,16 +149,16 @@ const IntercambiosEstats = () => {
                   <p className='numero'>{donaciones.reduce((sum, item) => sum + item.value, 0)}</p>
                   <div className='grid-datos'>
                     <div className='grid-datos-interior'>
-                      <h4>Concretados con Donación</h4>
-                      <p className='numero'>{donaciones[0].value}</p>
-                    </div>
-                    <div className='grid-datos-interior'>
                       <h4>Cancelado con Donación</h4>
                       <p className='numero'>{donaciones[1].value}</p>
                     </div>
                     <div className='grid-datos-interior'>
                       <h4>Rechazado con Donación</h4>
                       <p className='numero'>{donaciones[2].value}</p>
+                    </div>
+                    <div className='grid-datos-interior'>
+                      <h4>Concretados con Donación</h4>
+                      <p className='numero'>{donaciones[0].value}</p>
                     </div>
                   </div>
                 </div>
