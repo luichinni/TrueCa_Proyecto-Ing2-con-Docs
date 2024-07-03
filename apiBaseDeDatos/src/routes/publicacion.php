@@ -28,7 +28,9 @@ $app->group('/public', function (RouteCollectorProxy $group)  {
         if (array_key_exists('centrosActuales', $bodyParams) && $bodyParams['centrosActuales'] != '') $bodyParams['centrosActuales'] = (array)json_decode($bodyParams['centrosActuales']);
         if (array_key_exists('imagenesActuales', $bodyParams) && $bodyParams['imagenesActuales'] != '') $bodyParams['imagenesActuales'] = (array)json_decode($bodyParams['imagenesActuales']);
 
-        $publicacionesHandler->actualizar($bodyParams);
+        if (array_key_exists('setestado', $bodyParams) && $bodyParams['setestado'] == 'baja') $publicacionesHandler->baja($bodyParams);
+        else if (array_key_exists('setestado', $bodyParams) && $bodyParams['setestado'] == 'alta') $publicacionesHandler->alta($bodyParams);
+        else $publicacionesHandler->actualizar($bodyParams);
 
         $response->getBody()->write(json_encode(['Mensaje'=>$publicacionesHandler->mensaje]));
         return $response->withStatus($publicacionesHandler->status)->withHeader('Content-Type', 'application/json');

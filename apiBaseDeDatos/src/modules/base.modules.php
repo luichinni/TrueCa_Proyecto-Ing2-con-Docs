@@ -59,7 +59,7 @@ abstract class BaseHandler{
         $pudo = false;
 
         if (empty($datos) || !$this->existe($datos,true)) return $pudo;
-        error_log('llega');
+
         if ($this->restriccionBorrado($datos)){ // true -> restringido, false -> puede seguir
             $this->status = 500;
             return $pudo;

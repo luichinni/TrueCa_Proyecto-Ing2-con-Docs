@@ -66,7 +66,7 @@ const AgregarPublicacion = () => {
         e.preventDefault();
         console.log('Submit button clicked!');
         if (base64Fotos.length != 0){
-            if(centrosSeleccionados.lenth <= 3 && centrosSeleccionados.length != 0){
+            if(centrosSeleccionados.length <= 3 && centrosSeleccionados.length > 0){
                 const formData = new FormData();
                 formData.append('nombre', nombre);
                 formData.append('descripcion', descripcion);

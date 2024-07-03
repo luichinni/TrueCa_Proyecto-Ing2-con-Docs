@@ -50,7 +50,7 @@ $camposIntercambio = [
         "comparador" => "like"
     ],
     'motivo' => [
-        "tipo" => "ENUM('ausencia ambas partes','ausencia anunciante','ausencia ofertante','producto anunciado no es lo esperado','producto ofertado no es lo esperado','se eligió una oferta superadora','el producto no es de interes', 'fecha y hora no convenientes', 'centro dado de baja')",
+        "tipo" => "ENUM('una publicacion dada de baja','ausencia ambas partes','ausencia anunciante','ausencia ofertante','producto anunciado no es lo esperado','producto ofertado no es lo esperado','se eligió una oferta superadora','el producto no es de interes', 'fecha y hora no convenientes', 'centro dado de baja')",
         "comparador" => "like",
         "opcional" => true
     ],

@@ -46,7 +46,7 @@ class IntercambiosHandler extends BaseHandler{
             (array_key_exists('descripcion', $data)) && (/* comprobar vacio */strlen($data['descripcion'])==0) => $this->mensaje = 'La descripción de intercambio no es válida',
             (array_key_exists('donacion', $data)) && (/* comprobar bool */$data['donacion'] != 1 && $data['donacion'] != 0) => $this->mensaje = 'No pudo procesarse la confirmación de donación',
             (array_key_exists('publicacionOferta', $data) && array_key_exists('publicacionOfertada', $data))&&(/* comproba que no haya un intercambio ya */($this->existe(['publicacionOferta'=>$data['publicacionOferta'],'publicacionOfertada'=>$data['publicacionOfertada'], 'estado'=>'pendiente'])) || ($this->existe(['publicacionOferta' => $data['publicacionOfertada'], 'publicacionOfertada' => $data['publicacionOferta'], 'estado' => 'pendiente'])) || ($this->existe(['publicacionOferta' => $data['publicacionOferta'], 'publicacionOfertada' => $data['publicacionOfertada'], 'estado' => 'aceptada'])) || ($this->existe(['publicacionOferta' => $data['publicacionOfertada'], 'publicacionOfertada' => $data['publicacionOferta'], 'estado' => 'aceptada']))) => $this->mensaje = 'Ya hay un intercambio activo entre estas publicaciones',
-            (array_key_exists('motivo', $data)) && (!in_array($data['motivo'],['ausencia ambas partes', 'ausencia anunciante', 'ausencia ofertante', 'producto anunciado no es lo esperado', 'producto ofertado no es lo esperado', 'se eligió una oferta superadora', 'el producto no es de interes', 'fecha y hora no convenientes'])) =>$this->mensaje = 'El motivo no es válido',
+            (array_key_exists('motivo', $data)) && (!in_array($data['motivo'],['una publicacion dada de baja', 'ausencia ambas partes', 'ausencia anunciante', 'ausencia ofertante', 'producto anunciado no es lo esperado', 'producto ofertado no es lo esperado', 'se eligió una oferta superadora', 'el producto no es de interes', 'fecha y hora no convenientes', 'centro dado de baja'])) =>$this->mensaje = 'El motivo no es válido',
             default => $valido = true
         };
         return $valido;
@@ -71,6 +71,9 @@ class IntercambiosHandler extends BaseHandler{
             $this->mensaje = "No se pudo cancelar el intercambio correctamente";
             $this->status = 500;
         }
+        error_log($this->mensaje);
+        error_log('');
+        error_log('');
     }
     public function crear(array $datos)
     {

@@ -39,6 +39,7 @@ class PublicacionesHandler extends BaseHandler{
     public function actualizar(array $datos)
     {
         $pudo = parent::actualizar($datos);
+
         if(array_key_exists('id',$datos)&& array_key_exists('imagenesActuales',$datos)){
             eliminarImg(['publicacion' => $datos['id']]);
             foreach ($datos['imagenesActuales'] as $img) {
@@ -59,16 +60,23 @@ class PublicacionesHandler extends BaseHandler{
 
     public function baja(array $datos){
         $pudo = false;
+        error_log('Entra baja');
+        error_log('');
+        error_log('');
         $publicaciones = $this->listar($datos);
         if (empty($publicaciones)){
             $this->mensaje = 'No existen publicacion para dar de baja';
             return $pudo;
         }
 
+        error_log('Pasa if empty');
+        error_log('');
+        error_log('');
+
         foreach($publicaciones as $pos=>$publi){
             $this->actualizar(['id'=>$publi['id'],'setestado'=>'baja']);
             $this->notificacionesHandler->enviarNotificacion($publi['user'],'Publicacion dada de baja', 'Tu publicacion "'.$publi['nombre'].'" fue dada de baja');
-            $motivo = 'La publicación ' . $publi['nombre'] . ' fue dada de baja';
+            $motivo = 'una publicacion dada de baja';
             $this->intercambiosHandler->cancelar(['publicacionOferta'=>$publi['id'], 'estado' => 'pendiente'], $motivo);
             $this->intercambiosHandler->cancelar(['publicacionOfertada'=>$publi['id'], 'estado' => 'pendiente'], $motivo);
             $this->intercambiosHandler->cancelar(['publicacionOferta' => $publi['id'], 'estado' => 'aceptada'], $motivo);
@@ -144,7 +152,7 @@ class PublicacionesHandler extends BaseHandler{
             $listado = $newList;
         }
 
-        error_log('Publis: ' . json_encode($listado));
+        //error_log('Publis: ' . json_encode($listado));
 
         return $listado;
     }

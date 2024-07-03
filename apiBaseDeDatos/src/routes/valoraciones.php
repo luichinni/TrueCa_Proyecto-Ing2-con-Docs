@@ -91,6 +91,8 @@ $app->group('/public', function (RouteCollectorProxy $group) {
 
         $retorno['seEligióUnaOfertaSuperadora'] = $estadisticador->totalDe('se eligió una oferta superadora', $queryParams, 'cancelado', $desde, $hasta);
 
+        $retorno['unaPublicacionDadaDeBaja'] = $estadisticador->totalDe('una publicacion dada de baja',$queryParams,'cancelado',$desde,$hasta);
+
         $retorno['concretado'] = $estadisticador->totalDe('', $queryParams, 'concretado', $desde, $hasta);
 
         $retorno['total'] = 0;
