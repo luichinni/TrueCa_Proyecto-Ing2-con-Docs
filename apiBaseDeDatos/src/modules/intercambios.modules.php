@@ -52,6 +52,11 @@ class IntercambiosHandler extends BaseHandler{
         return $valido;
     }
 
+    public function actualizar(array $datos)
+    {
+        $pudo = parent::actualizar($datos);
+    }
+
     // cancelar
     public function cancelar(array $datos, string $motivo){
         $datos['setestado'] = 'cancelado';
@@ -71,9 +76,6 @@ class IntercambiosHandler extends BaseHandler{
             $this->mensaje = "No se pudo cancelar el intercambio correctamente";
             $this->status = 500;
         }
-        error_log($this->mensaje);
-        error_log('');
-        error_log('');
     }
     public function crear(array $datos)
     {
@@ -108,6 +110,8 @@ class IntercambiosHandler extends BaseHandler{
         $intercambio = (array)$this->listar($datos)[0];
         $publiOferta = (array)$this->publiHandler->listar(['id' => $intercambio['publicacionOferta']])[0];
         $publiOfertada = (array)$this->publiHandler->listar(['id' => $intercambio['publicacionOfertada']])[0];
+        $this->publiHandler->bajaPorIntercambio($publiOferta['id']);
+        $this->publiHandler->bajaPorIntercambio($publiOfertada['id']);
         $this->notificacionesHandler->enviarNotificacion($publiOferta['user'], 'Intercambio aceptado!', 'Se aceptó el intercambio de ' . $publiOferta['nombre'] . ' por ' . $publiOfertada['nombre'], '');
         $this->notificacionesHandler->enviarNotificacion($publiOfertada['user'], 'Intercambio aceptado!', 'Se aceptó el intercambio de ' . $publiOferta['nombre'] . ' por ' . $publiOfertada['nombre'], '');
         $this->mensaje = "Aceptado con éxito";
@@ -168,6 +172,15 @@ class IntercambiosHandler extends BaseHandler{
             })
             ->distinct(fn ($i1, $i2) => $i1['id'] == $i2['id'])
             ->get();
+
+        if(!$centro_id){
+            $newArr = [];
+            foreach($return as $pos=>$intercambio){
+                $intercambio['centro'] = $this->centroHandler->nombre($intercambio['centro']);
+                $newArr[] = $intercambio;
+            }
+            $return = $newArr;
+        }
 
         $this->status = (count($return) == 0) ? 404 : 200;
         $this->mensaje = (count($return) == 0 ) ? 'No se encontraron intercambios' : 'Intercambios listados con exito';

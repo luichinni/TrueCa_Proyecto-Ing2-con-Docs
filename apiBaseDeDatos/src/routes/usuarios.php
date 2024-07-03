@@ -175,6 +175,8 @@ $app->group('/public', function (RouteCollectorProxy $group) use ($pdo,$camposUs
 
         $usuariosHandler->actualizar($bodyParams);
 
+        error_log($usuariosHandler->mensaje);
+
         $res->getBody()->write(json_encode(['Mensaje'=>$usuariosHandler->mensaje]));
 
         return $res->withStatus($usuariosHandler->status)->withHeader('Content-Type', 'application/json');

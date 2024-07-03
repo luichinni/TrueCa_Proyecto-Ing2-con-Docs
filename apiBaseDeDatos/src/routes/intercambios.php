@@ -46,7 +46,11 @@ $app->group('/public', function (RouteCollectorProxy $group) {
         
         global $intercambioHandler;
 
-        $intercambioHandler->actualizar($bodyParams);
+        if(array_key_exists('setestado',$bodyParams) && $bodyParams['setestado']=='aceptado'){
+            $intercambioHandler->aceptar($bodyParams);
+        }else{
+            $intercambioHandler->actualizar($bodyParams);
+        }
 
         $res->getBody()->write(json_encode(['Mensaje'=>$intercambioHandler->mensaje]));
         return $res->withStatus($intercambioHandler->status)->withHeader('Content-Type', 'application/json');

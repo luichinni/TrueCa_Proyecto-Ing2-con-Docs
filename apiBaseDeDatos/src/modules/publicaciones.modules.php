@@ -87,6 +87,12 @@ class PublicacionesHandler extends BaseHandler{
         return $pudo;
     }
 
+    public function bajaPorIntercambio(int|string $id){
+        $publi = (array)$this->listar(['id'=>$id])[0];
+        $this->intercambiosHandler->rechazar(['publicacionOferta' => $id, 'estado' => 'pendiente'], 'se eligió una oferta superadora');
+        $this->intercambiosHandler->rechazar(['publicacionOfertada' => $id, 'estado' => 'pendiente'], 'se eligió una oferta superadora');
+    }
+
     public function alta(array $datos){
         $pudo = false;
         $publicaciones = $this->listar($datos);
