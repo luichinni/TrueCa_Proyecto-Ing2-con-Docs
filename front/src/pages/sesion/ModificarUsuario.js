@@ -115,14 +115,19 @@ const ModificarUsuario = () => {
 			<h3> Modifica tus datos de usuario! </h3>  <br /> <br />
       {usuarios.map(usuario => (
       <>
+        <label> Nombre: </label>
         <input placeholder={"nombre"} type="text" value={nombre} onChange={handleNombreChange} /> <br/><br/>  
 
+        <label> Apellido: </label>
         <input placeholder={"apellido"} type="text" value={apellido} onChange={handleApellidoChange} />  <br/><br/>  
 
+        <label> DNI: </label>
         <input placeholder={"documento"} type="text" value={numeroDocumento} onChange={handleNumeroDocumentoChange} />  <br/><br/>  
 
+        <label> Mail: </label>
         <input placeholder={"mail"} type="text"  value={mail} onChange={handleMailChange} /> <br/> <br/> 
         
+        <label> Telefono: </label>
         <input placeholder={"telefono"} type="text" value={telefono} onChange={handleTelefonoChange} />  <br/><br/> 
         
         <Link to={`/modificarContraseña/${username}`}><button className="cambiarContraseña">Cambiar contraseña</button></Link> <br/><br/> 
