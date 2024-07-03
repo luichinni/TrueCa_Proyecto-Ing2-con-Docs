@@ -74,7 +74,7 @@ const Intercambio = ({ id, publicacionOferta, publicacionOfertada, centro, horar
 
       // Verificar si ya se ha hecho una puntuación
       try {
-        const url3 = `http://localhost:8000/public/username=${username}`;
+        const url3 = `http://localhost:8000/public/debePuntuar?intercambio=${id}&username=${username}`;
         const response3 = await axios.get(url3);
         
         if (response3.data.puntuacionHecha) {

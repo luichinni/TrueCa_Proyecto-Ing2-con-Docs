@@ -26,6 +26,14 @@ $camposValoraciones = [
         "tipo" => "float",
         "comparador" => "="
     ],
+    'intercambio' => [
+        "tipo" => "int",
+        "comparador" => "=",
+        "fk" => [
+            "tabla" => "intercambio",
+            "campo" => "id"
+        ]
+    ],
     /* 'fecha' => '?datetime', created_at
     'fecha_modificado' => '?datetime'   updated_at      */
 ];
