@@ -18,29 +18,20 @@ const PubliDetalle = () => {
     const [numeroFoto, setNumeroFoto] = useState(0);
 
     useEffect(() => {
-        console.log(`Obteniendo datos para id: ${id}`);
         const publicacionGuardada = localStorage.getItem("publicacion");
-        console.log(`Datos sin procesar del localStorage: ${publicacionGuardada}`);
 
         const publicacionObj = JSON.parse(publicacionGuardada);
-        console.log(`Datos parseados:`, publicacionObj);
 
         let nuevoArr = [];
         publicacionObj.centros.forEach((centro)=> nuevoArr.push(centro.nombre));
         publicacionObj.centros = nuevoArr;
-
-
-        console.log('NUMERO FOTO: '+numeroFoto);
-        console.log('Max fotos: ' + publicacionObj.imagenes.length);
 
         const idNumero = Number(id);
 
         if (publicacionObj && publicacionObj.id === idNumero) {
             setPublicacion(publicacionObj);
             setDueño(publicacionObj.user)
-            console.log(`seteamos dueño: ${dueño}`)
         } else {
-            console.log("Publicación no encontrada");
         }
 
     }, [id]);
@@ -55,24 +46,22 @@ const PubliDetalle = () => {
         setError('');
         try {
             const url = `http://localhost:8000/public/getValoracion?userValorado=${dueño}&token=${localStorage.getItem('token')}`;
-            console.log(`llegue, url: ${url}`)
-            console.log(localStorage.getItem('token'));
+
             const response = await axios.get(url);
-            console.log(`llegue2, response:${response.data}`)
 
             if (!response.data || response.data.Valoracion === undefined) {
                 setError('No hay valoraciones disponibles');
                 setValoraciones('Sin valoraciones');
-                console.log(`entre por error de undefined`)
+     
             } else {
                 setValoraciones(response.data.Valoracion);
-                console.log(`entre a gurdar datos`)
+                
             }
         } catch (error) {
             /* setError('No hay valoraciones disponibles.'); */
             setValoraciones('Sin valoraciones');
             console.error(error);
-            console.log(`entre por error`)
+            
         }
     };
 
@@ -99,8 +88,7 @@ const PubliDetalle = () => {
     const handleDetalleClick = () => {
         localStorage.setItem("publiOferto", publicacion.id);
         localStorage.setItem("categoriaInter", publicacion.categoria_id);
-        console.log(localStorage.getItem("publiOferto"));
-        console.log(localStorage.getItem("categoriaInter"));
+   
     };
 
     return (

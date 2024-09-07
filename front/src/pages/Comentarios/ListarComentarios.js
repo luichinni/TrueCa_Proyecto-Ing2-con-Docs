@@ -25,25 +25,18 @@ const ListarComentarios = (props) => {
       setError('');
 
       try {
-        console.log(`key: ${props.publicacion}`)
-        console.log(`parametros: ${parametros}`)
         const queryParams = new URLSearchParams(parametros).toString();
         const url = `http://localhost:8000/public/listarComentarios?${queryParams}`;
-        console.log(`url: ${url}`)
         const response = await axios.get(url);
-        console.log(`respuesta: ${response.data}`)
 
         if (response.data.length === 0) {
           setError('No hay Preguntas');
           setComentarios([]);
-          console.log(`falle por 0 resultados`)
         } else {
           setComentarios(procesar (response.data));
-          console.log(`comentarios: ${comentarios}`)
         }
       } catch (error) {
         setError('No hay Preguntas.');
-        console.log(`falle por error`)
         console.error(error);
       } finally {
         setLoading(false);
